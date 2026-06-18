@@ -1,0 +1,90 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-header {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 22px 28px;
+}
+
+  .page-header h2 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .page-header p {
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 14px;
+  }
+
+.form-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 28px;
+}
+
+.card-title {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+  .card-title h3 {
+    margin: 0;
+    font-size: 22px;
+  }
+
+  .card-title span {
+    color: #6b7280;
+    font-size: 13px;
+  }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #374151;
+  }
+
+.form-control {
+  height: 44px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+  .form-control:focus {
+    outline: none;
+    border-color: #4f46e5;
+  }
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}

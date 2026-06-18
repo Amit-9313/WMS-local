@@ -1,0 +1,42 @@
+<div class="page-container">
+
+  <div class="page-header">
+
+    <h2>View Model</h2>
+
+    <button class="btn btn-secondary"
+            (click)="back()">
+      Back
+    </button>
+
+  </div>
+
+  <div class="details-card" *ngIf="model">
+
+    <p><b>Model Name:</b> {{model.modelName}}</p>
+    <p><b>Model Number:</b> {{model.modelNumber}}</p>
+    <p><b>Description:</b> {{model.description}}</p>
+    <p><b>HSN Code:</b> {{model.hsnCode}}</p>
+    <p><b>Selling Price:</b> ₹{{model.sellingPrice}}</p>
+    <p><b>Cost Price:</b> ₹{{model.costPrice}}</p>
+    <p><b>Quantity:</b> {{model.quantity}}</p>
+    <hr>
+    <hr>
+
+   <div class="audit-info">
+
+  <p>
+    <b>Last Updated By:</b>
+    {{ model.updatedBy || '-' }}
+  </p>
+
+  <p>
+    <b>Last Updated On:</b>
+    {{ model.updatedOn || '-' }}
+  </p>
+
+  </div>
+
+  </div>
+
+</div>

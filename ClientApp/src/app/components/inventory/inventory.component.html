@@ -1,0 +1,280 @@
+<div class="inventory-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h2>Inventory</h2>
+      <p>Warehouse WH-001 — Surat Branch</p>
+    </div>
+
+    <div class="user-info">
+      <span>IST 09:42</span>
+      <span class="status-dot"></span>
+      <div class="avatar">PM</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+
+  <div class="tabs">
+    <button [class.active]="activeTab==='summary'"
+            (click)="activeTab='summary'">
+      Stock Summary
+    </button>
+
+    <button [class.active]="activeTab==='ledger'"
+            (click)="activeTab='ledger'">
+      Movement Ledger
+    </button>
+
+    <button [class.active]="activeTab==='bins'"
+            (click)="activeTab='bins'">
+      Bin Explorer
+    </button>
+
+    <button [class.active]="activeTab==='adjustments'"
+            (click)="activeTab='adjustments'">
+      Adjustments
+    </button>
+  </div>
+
+  <!-- STOCK SUMMARY -->
+
+  <div *ngIf="activeTab==='summary'">
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <h4>On-hand Qty</h4>
+        <h2>{{totalOnHand | number}}</h2>
+        <span>Physical stock</span>
+      </div>
+
+      <div class="stat-card">
+        <h4>Reserved Qty</h4>
+        <h2>{{totalReserved | number}}</h2>
+        <span>Allocated to picks</span>
+      </div>
+
+      <div class="stat-card">
+        <h4>Available Qty</h4>
+        <h2>{{totalAvailable | number}}</h2>
+        <span>Ready for operations</span>
+      </div>
+
+      <div class="stat-card danger">
+        <h4>Blocked / Hold</h4>
+        <h2>{{totalBlocked | number}}</h2>
+        <span>QC Hold</span>
+      </div>
+
+    </div>
+
+    <div class="table-card">
+
+      <div class="table-toolbar">
+
+        <input type="text"
+               placeholder="Search SKU..."
+               [(ngModel)]="filterText"
+               (input)="filterStock()">
+
+      </div>
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>SKU</th>
+            <th>Item</th>
+            <th>Lot</th>
+            <th>Stage</th>
+            <th>On Hand</th>
+            <th>Reserved</th>
+            <th>Available</th>
+            <th>Damaged</th>
+            <th>Blocked</th>
+            <th>In Transit</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let s of filteredStock">
+
+            <td>{{s.item?.skuCode}}</td>
+            <td>{{s.item?.itemName}}</td>
+            <td>{{ getLotNumber(s) }}</td>
+        <td>{{ getStageCode(s) }}</td>
+
+            <td>{{s.onHandQty}}</td>
+            <td>{{s.reservedQty}}</td>
+            <td>{{s.availableQty}}</td>
+            <td>{{ getDamagedQty(s) }}</td>
+            <td>{{ getBlockedQty(s) }}</td>
+            <td>{{ getInTransitQty(s) }}</td>
+
+            <td>
+              <span class="status adequate"
+                    *ngIf="s.availableQty > 20">
+                Adequate
+              </span>
+
+              <span class="status low"
+                    *ngIf="s.availableQty > 0 && s.availableQty <=20">
+                Low Stock
+              </span>
+
+              <span class="status out"
+                    *ngIf="s.availableQty<=0">
+                Stock Out
+              </span>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- MOVEMENT LEDGER -->
+
+  <div *ngIf="activeTab==='ledger'" class="table-card">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Txn #</th>
+          <th>Type</th>
+          <th>SKU</th>
+          <th>Lot</th>
+          <th>From Bin</th>
+          <th>To Bin</th>
+          <th>Qty</th>
+          <th>User</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let m of movements">
+
+          <td>{{m.transactionNumber}}</td>
+
+          <td>
+            <span class="badge">
+              {{m.movementType}}
+            </span>
+          </td>
+
+          <td>{{m.item?.skuCode}}</td>
+
+          <td>{{ getMovementLotNumber(m) }}</td>
+
+          <td>{{m.sourceBin?.binCode || '-'}}</td>
+
+          <td>{{m.destinationBin?.binCode || '-'}}</td>
+
+          <td>{{m.qty}}</td>
+
+          <td>{{ getPerformedBy(m) }}</td>
+
+          <td>{{m.performedAt | date:'shortTime'}}</td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- BIN EXPLORER -->
+
+  <div *ngIf="activeTab==='bins'" class="bin-wrapper">
+
+    <h3>Warehouse Bin Occupancy</h3>
+
+    <div class="bin-grid">
+
+      <div class="bin-card empty">E</div>
+      <div class="bin-card low">L</div>
+      <div class="bin-card medium">M</div>
+      <div class="bin-card full">F</div>
+
+      <div class="bin-card full">F</div>
+      <div class="bin-card low">L</div>
+      <div class="bin-card medium">M</div>
+      <div class="bin-card empty">E</div>
+
+    </div>
+
+  </div>
+
+  <!-- ADJUSTMENTS -->
+
+  <div *ngIf="activeTab==='adjustments'">
+
+    <div class="adjustment-card">
+
+      <h3>Create Stock Adjustment</h3>
+
+      <div class="form-grid">
+
+        <div>
+          <label>SKU / Item</label>
+
+          <select class="form-control"
+                  [(ngModel)]="adjustForm.itemId">
+
+            <option *ngFor="let s of stock"
+                    [value]="s.stockId">
+              {{s.item?.skuCode}} - {{s.item?.itemName}}
+            </option>
+
+          </select>
+        </div>
+
+        <div>
+          <label>Adjustment Qty</label>
+
+          <input type="number"
+                 class="form-control"
+                 [(ngModel)]="adjustForm.qty">
+        </div>
+
+        <div>
+          <label>Reason</label>
+
+          <select class="form-control"
+                  [(ngModel)]="adjustForm.reason">
+
+            <option>Cycle Count Variance</option>
+            <option>Damage</option>
+            <option>Loss</option>
+            <option>Write Off</option>
+
+          </select>
+        </div>
+
+      </div>
+
+      <button class="save-btn"
+              (click)="doAdjust()">
+
+        Submit For Approval
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

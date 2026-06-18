@@ -1,0 +1,130 @@
+<div class="page">
+ 
+  <div class="page-header">
+ 
+    <div>
+      <h2>View Item</h2>
+      <p>Asset Details</p>
+    </div>
+ 
+    <button class="btn-secondary"
+            (click)="back()">
+ 
+      Back
+ 
+    </button>
+ 
+  </div>
+ 
+  <div class="card">
+ 
+    <div class="details-grid">
+ 
+      <div>
+        <label>Model Name</label>
+        <p>{{ item.modelName }}</p>
+      </div>
+ 
+      <div>
+        <label>Model Number</label>
+        <p>{{ item.modelNumber }}</p>
+      </div>
+ 
+      <div class="serial-section">
+ 
+        <div>
+ 
+          <label>Serial Number</label>
+ 
+          <p>
+            {{ item.serialNumber }}
+          </p>
+ 
+        </div>
+ 
+        <div *ngIf="qrImage"
+             class="qr-preview"
+             (click)="openQrModal()">
+ 
+          <img *ngIf="qrImage"
+               [src]="qrImage"
+               class="qr-preview">
+ 
+        </div>
+ 
+      </div>
+ 
+      <div>
+        <label>Status</label>
+ 
+        <span class="badge"
+              [ngClass]="
+            item.status === 'Good'
+            ? 'badge-success'
+            : 'badge-danger'
+          ">
+ 
+          {{ item.status }}
+ 
+        </span>
+ 
+      </div>
+ 
+      <div>
+        <label>Warehouse</label>
+        <p>{{ item.warehouse }}</p>
+      </div>
+ 
+      <div>
+        <label>Rack</label>
+        <p>{{ item.rack }}</p>
+      </div>
+ 
+      <div>
+        <label>Shelf</label>
+        <p>{{ item.shelf }}</p>
+      </div>
+ 
+      <div>
+        <label>Bin</label>
+        <p>{{ item.bin }}</p>
+      </div>
+ 
+      <div>
+        <label>Project</label>
+        <p>{{ item.project }}</p>
+      </div>
+ 
+      <div>
+        <label>Assignment ID</label>
+        <p>{{ item.assignmentId }}</p>
+      </div>
+ 
+    </div>
+ 
+  </div>
+ 
+</div>
+ 
+<div class="qr-modal"
+     *ngIf="showQrModal">
+ 
+  <div class="qr-modal-content">
+ 
+    <button class="close-btn"
+            (click)="closeQrModal()">
+ 
+      ✕
+ 
+    </button>
+ 
+    <img [src]="qrImage"
+         class="zoomed-qr">
+ 
+    <h3>
+      {{ item.serialNumber }}
+    </h3>
+ 
+  </div>
+ 
+</div>

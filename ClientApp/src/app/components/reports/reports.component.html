@@ -1,0 +1,28 @@
+<div class="section-header"><h2>Reports</h2></div>
+<div class="kpi-grid">
+  <div class="report-card" *ngFor="let r of reports" (click)="selectReport(r)">
+    <div class="report-icon" [style.background]="r.bg">
+      <svg [innerHTML]="r.icon" stroke="currentColor" fill="none" stroke-width="1.5" width="20" height="20"></svg>
+    </div>
+    <span class="report-label">{{ r.label }}</span>
+    <span class="report-desc">{{ r.desc }}</span>
+  </div>
+</div>
+
+<div class="card" *ngIf="selectedReport" style="margin-top:20px">
+  <div class="card-header">
+    <h3>{{ selectedReport.label }}</h3>
+    <button class="btn btn-sm btn-secondary" (click)="selectedReport=null">Close</button>
+  </div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th *ngFor="let h of selectedReport.headers">{{ h }}</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let row of reportData">
+          <td *ngFor="let h of selectedReport.headers">{{ getRowValue(row, h) }}</td>
+        </tr>
+        <tr *ngIf="!reportData.length"><td [attr.colspan]="selectedReport.headers.length" class="text-center text-muted">Loading data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

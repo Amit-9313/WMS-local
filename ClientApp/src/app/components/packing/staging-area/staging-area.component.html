@@ -1,0 +1,33 @@
+<p>staging-area works!</p>
+<div class="staging-grid">
+
+  <div class="stage-card"
+       *ngFor="let item of stagingItems">
+
+    <div class="card-header">
+      <h4>{{item.project}}</h4>
+      <span>{{item.stage}}</span>
+    </div>
+
+    <div class="card-body">
+
+      <div class="info">
+        <label>Pick Task</label>
+        <span>{{item.pickTask}}</span>
+      </div>
+
+      <div class="info">
+        <label>Items</label>
+        <span>{{item.items}}</span>
+      </div>
+
+      <div class="info">
+        <label>Quantity</label>
+        <span>{{item.qty}}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

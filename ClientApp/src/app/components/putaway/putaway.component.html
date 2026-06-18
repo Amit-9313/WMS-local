@@ -1,0 +1,100 @@
+<div class="page">
+
+
+  <!-- KPI Cards -->
+
+  <div class="kpi-grid">
+
+    <div class="kpi-card">
+      <span>Pending Tasks</span>
+      <h3>{{ kpis.pending }}</h3>
+    </div>
+
+    <div class="kpi-card">
+      <span>In Progress</span>
+      <h3>{{ kpis.inProgress }}</h3>
+    </div>
+
+    <div class="kpi-card">
+      <span>Completed Today</span>
+      <h3>{{ kpis.completed }}</h3>
+    </div>
+
+    <div class="kpi-card">
+      <span>Average Time</span>
+      <h3>{{ kpis.avgTime }}</h3>
+    </div>
+
+  </div>
+
+  <!-- Task Table -->
+
+  <div class="table-wrapper">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Task No</th>
+          <th>SKU</th>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Source</th>
+          <th>Destination</th>
+          <th>Assigned To</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let task of tasks">
+
+          <td>{{ task.taskNo }}</td>
+          <td>{{ task.sku }}</td>
+          <td>{{ task.item }}</td>
+          <td>{{ task.qty }}</td>
+          <td>{{ task.source }}</td>
+          <td>{{ task.destination }}</td>
+          <td>{{ task.assignedTo }}</td>
+          <td>{{ task.priority }}</td>
+
+          <td>
+            <span class="status-pill"
+                  [ngClass]="getStatusClass(task.status)">
+              {{ task.status }}
+            </span>
+          </td>
+
+          <td>
+
+            <button class="btn btn-sm btn-secondary"
+                    (click)="allocate(task)">
+              Allocate
+            </button>
+
+            <button class="btn btn-sm btn-primary"
+                    *ngIf="task.status === 'Pending'"
+                    (click)="start(task)">
+              Start
+            </button>
+
+            <button class="btn btn-sm btn-success"
+                    *ngIf="task.status === 'In Progress'"
+                    (click)="complete(task)">
+              Complete
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

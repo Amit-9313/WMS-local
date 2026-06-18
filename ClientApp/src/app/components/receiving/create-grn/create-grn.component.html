@@ -1,0 +1,168 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <h2>Create Goods Receipt Note</h2>
+  </div>
+
+  <div class="card">
+
+    <h3>Receipt Information</h3>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>GRN Number</label>
+        <input [(ngModel)]="grn.grnNumber" />
+      </div>
+
+      <div class="form-group">
+        <label>Receipt Type</label>
+        <select [(ngModel)]="grn.receiptType">
+          <option>PO</option>
+          <option>Direct Receipt</option>
+          <option>Return</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>PO Number</label>
+        <input [(ngModel)]="grn.poNumber" />
+      </div>
+
+      <div class="form-group">
+        <label>Vendor</label>
+        <input [(ngModel)]="grn.vendor" />
+      </div>
+
+      <div class="form-group">
+        <label>Invoice Number</label>
+        <input [(ngModel)]="grn.invoiceNumber" />
+      </div>
+
+      <div class="form-group">
+        <label>Invoice Date</label>
+        <input type="date"
+               [(ngModel)]="grn.invoiceDate" />
+      </div>
+
+      <div class="form-group">
+        <label>Vehicle Number</label>
+        <input [(ngModel)]="grn.vehicleNumber" />
+      </div>
+
+      <div class="form-group">
+        <label>Dock Zone</label>
+        <input [(ngModel)]="grn.dockZone" />
+      </div>
+
+      <div class="form-group">
+        <label>Received By</label>
+        <input [(ngModel)]="grn.receivedBy" />
+      </div>
+
+    </div>
+
+    <div class="form-group remarks">
+      <label>Remarks</label>
+      <textarea rows="4"
+                [(ngModel)]="grn.remarks">
+      </textarea>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="table-header">
+      <h3>Item Details</h3>
+
+      <button class="btn btn-primary"
+              (click)="addItem()">
+
+        + Add Item
+
+      </button>
+
+    </div>
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Item Code</th>
+            <th>Item Name</th>
+            <th>Expected Qty</th>
+            <th>Received Qty</th>
+            <th>UOM</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of items; let i = index">
+
+            <td>
+              <input [(ngModel)]="item.itemCode">
+            </td>
+
+            <td>
+              <input [(ngModel)]="item.itemName">
+            </td>
+
+            <td>
+              <input type="number"
+                     [(ngModel)]="item.expectedQty">
+            </td>
+
+            <td>
+              <input type="number"
+                     [(ngModel)]="item.receivedQty">
+            </td>
+
+            <td>
+              <input [(ngModel)]="item.uom">
+            </td>
+
+            <td>
+
+              <button class="btn btn-danger"
+                      (click)="removeItem(i)">
+
+                Remove
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <div class="action-buttons">
+
+    <button class="btn btn-secondary"
+            (click)="saveDraft()">
+
+      Save Draft
+
+    </button>
+
+    <button class="btn btn-success"
+            (click)="submitGRN()">
+
+      Submit GRN
+
+    </button>
+
+  </div>
+
+</div>

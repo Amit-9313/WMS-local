@@ -1,0 +1,340 @@
+<aside>
+
+  <!-- BRAND -->
+
+  <div class="brand">
+    <svg width="28"
+         height="28"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="#3b82f6"
+         stroke-width="1.5">
+
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+      <line x1="12" y1="22.08" x2="12" y2="12" />
+
+    </svg>
+
+    <h2>Etaprise</h2>
+  </div>
+
+  <!-- SIDEBAR -->
+
+  <nav class="nav-menu">
+
+    <!-- DASHBOARD -->
+
+    <a routerLink="/dashboard"
+       routerLinkActive="active"
+       class="nav-item top-link">
+
+      Dashboard
+
+    </a>
+
+    <!-- INVENTORY -->
+
+    <div class="menu-group">
+
+      <div class="group-header"
+           (click)="toggleMenu('inventory')">
+
+        <span>Inventory</span>
+
+        <span class="arrow"
+              [class.open]="isExpanded('inventory')">
+
+          ▼
+
+        </span>
+
+      </div>
+
+      <div class="submenu"
+     *ngIf="isExpanded('inventory')">
+
+  <a
+    routerLink="/warehouse"
+    routerLinkActive="active"
+    class="nav-item">
+
+    Warehouse
+
+  </a>
+
+  <a
+    routerLink="/model-master"
+    routerLinkActive="active"
+    class="nav-item">
+
+    Model Master
+
+  </a>
+
+  <a
+    routerLink="/item-master"
+    routerLinkActive="active"
+    class="nav-item">
+
+    Item Master
+
+  </a>
+
+
+</div>
+
+    </div>
+
+    <!-- PROCUREMENT -->
+
+    <div class="menu-group">
+
+      <div class="group-header"
+           (click)="toggleMenu('procurement')">
+
+        <span>Procurement</span>
+
+        <span class="arrow"
+              [class.open]="isExpanded('procurement')">
+
+          ▼
+
+        </span>
+
+      </div>
+
+      <div class="submenu"
+           *ngIf="isExpanded('procurement')">
+
+        <a routerLink="/procurement"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Purchase Orders
+
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- OPERATIONS -->
+
+    <div class="menu-group">
+
+      <div class="group-header"
+           (click)="toggleMenu('operations')">
+
+        <span>Operations</span>
+
+        <span class="arrow"
+              [class.open]="isExpanded('operations')">
+
+          ▼
+
+        </span>
+
+      </div>
+
+      <div class="submenu"
+           *ngIf="isExpanded('operations')">
+
+        <a routerLink="/putaway"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Putaway Tasks
+
+          <span class="badge red">5</span>
+
+        </a>
+
+        <a routerLink="/picking"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Pick Waves
+
+        </a>
+
+        <a routerLink="/packing"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Packing
+
+        </a>
+
+        <a routerLink="/dispatch"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Dispatch
+
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- PROJECTS -->
+
+    <div class="menu-group">
+
+      <div class="group-header"
+           (click)="toggleMenu('projects')">
+
+        <span>Projects & BOM</span>
+
+        <span class="arrow"
+              [class.open]="isExpanded('projects')">
+
+          ▼
+
+        </span>
+
+      </div>
+
+      <div class="submenu"
+           *ngIf="isExpanded('projects')">
+
+        <a routerLink="/projects"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Projects
+
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- REPORTS -->
+
+    <div class="menu-group">
+
+      <div class="group-header"
+           (click)="toggleMenu('reports')">
+
+        <span>Reports</span>
+
+        <span class="arrow"
+              [class.open]="isExpanded('reports')">
+
+          ▼
+
+        </span>
+
+      </div>
+
+      <div class="submenu"
+           *ngIf="isExpanded('reports')">
+
+        <a routerLink="/reports/inventory"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Inventory Reports
+
+        </a>
+
+        <a routerLink="/reports/grn"
+           routerLinkActive="active"
+           class="nav-item">
+
+          GRN Reports
+
+        </a>
+
+        <a routerLink="/reports/audit"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Audit Logs
+
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- ADMIN -->
+
+    <div class="menu-group">
+
+      <div class="group-header"
+           (click)="toggleMenu('admin')">
+
+        <span>Administration</span>
+
+        <span class="arrow"
+              [class.open]="isExpanded('admin')">
+
+          ▼
+
+        </span>
+
+      </div>
+
+      <div class="submenu"
+           *ngIf="isExpanded('admin')">
+
+        <a routerLink="/warehouse-setup"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Warehouse Setup
+
+        </a>
+
+        <a routerLink="/admin/users"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Users & Roles
+
+        </a>
+
+        <a routerLink="/admin/settings"
+           routerLinkActive="active"
+           class="nav-item">
+
+          Settings
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+
+<main>
+
+  <header>
+
+    <div class="header-left">
+
+      <h1>{{ pageTitle }}</h1>
+
+      <span class="header-badge">
+        Production
+      </span>
+
+    </div>
+
+  </header>
+
+  <div class="content">
+
+    <router-outlet></router-outlet>
+
+  </div>
+
+</main>

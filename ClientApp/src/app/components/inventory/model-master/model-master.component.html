@@ -1,0 +1,126 @@
+<div class="page-container">
+  <div class="toolbar">
+
+    <input class="search-box"
+           type="text"
+           placeholder="Search Model Name, Model Number..."
+           [(ngModel)]="searchText">
+
+    <div class="toolbar-actions">
+
+      <input #fileInput
+             type="file"
+             accept=".xlsx,.xls"
+             hidden
+             (change)="onFileSelected($event)">
+
+      <button class="btn btn-success"
+              (click)="fileInput.click()">
+
+        Bulk Upload
+
+      </button>
+
+      <button class="btn btn-primary"
+              (click)="createModel()">
+
+        + Create New Model
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="table-card">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>MODEL NAME</th>
+          <th>MODEL #</th>
+          <th>DESCRIPTION</th>
+          <th>HSN CODE</th>
+          <th>SELLING PRICE</th>
+          <th>COST PRICE</th>
+          <th>QTY</th>
+          <th>ACTIONS</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let model of filteredModels">
+
+          <td>{{ model.modelName }}</td>
+
+          <td>{{ model.modelNumber }}</td>
+
+          <td>{{ model.description }}</td>
+
+          <td>{{ model.hsnCode }}</td>
+
+          <td>₹ {{ model.sellingPrice }}</td>
+
+          <td>₹ {{ model.costPrice }}</td>
+
+          <td>{{ model.quantity }}</td>
+
+          <td>
+
+            <div class="action-buttons">
+
+              <button
+                class="btn btn-view"
+                (click)="viewModel(model.id)">
+
+                View
+
+              </button>
+
+              <button
+                class="btn btn-edit"
+                (click)="editModel(model.id)">
+
+                Edit
+
+              </button>
+
+              <button
+                class="btn btn-delete"
+                (click)="deleteModel(model.id)">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+        <tr *ngIf="filteredModels.length === 0">
+
+          <td
+            colspan="8"
+            style="text-align:center;padding:30px;">
+
+            No Models Found
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

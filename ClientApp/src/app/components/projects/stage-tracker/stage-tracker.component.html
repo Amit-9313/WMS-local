@@ -1,0 +1,26 @@
+<div class="tracker-grid">
+
+  <div class="stage-card"
+       *ngFor="let s of stages">
+
+    <h3>{{s.stageName}}</h3>
+
+    <p>Status: {{s.status}}</p>
+
+    <p>Required: {{s.requiredItems}}</p>
+
+    <p>Picked: {{s.pickedItems}}</p>
+
+    <p>Packed: {{s.packedItems}}</p>
+
+    <div class="progress">
+      <div class="fill"
+           [style.width.%]="s.completionPct">
+      </div>
+    </div>
+
+    <span>{{s.completionPct}}%</span>
+
+  </div>
+
+</div>

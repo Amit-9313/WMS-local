@@ -1,0 +1,108 @@
+<div class="kpi-grid">
+  <div class="kpi-card" *ngFor="let k of kpis">
+    <div class="kpi-icon" [style.background]="k.bg">
+      <svg [innerHTML]="k.icon" stroke="currentColor" fill="none" stroke-width="1.5" width="22" height="22"></svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-label">{{ k.label }}</span>
+      <span class="kpi-value">{{ k.value }}</span>
+      <span class="kpi-trend" [class.up]="k.up" [class.down]="!k.up">{{ k.trend }}</span>
+    </div>
+  </div>
+</div>
+<div class="grid-2col">
+  <div class="card">
+    <div class="card-header"><h3>Project Stock Status</h3><span class="badge badge-primary">Required vs Available</span></div>
+    <div class="chart-box">
+      <div class="chart-container chart-box">
+
+  <div class="chart-legend">
+    <div class="legend-item">
+      <span class="legend-color required"></span>
+      Required
+    </div>
+
+    <div class="legend-item">
+      <span class="legend-color available"></span>
+      Available
+    </div>
+  </div>
+
+  <div class="chart-area">
+
+    <div class="y-axis">
+      <span>100</span>
+      <span>75</span>
+      <span>50</span>
+      <span>25</span>
+      <span>0</span>
+    </div>
+
+    <div class="bars-wrapper">
+
+      <div class="grid-line"></div>
+      <div class="grid-line"></div>
+      <div class="grid-line"></div>
+      <div class="grid-line"></div>
+
+      <div
+        class="project-group"
+        *ngFor="let p of projectChartData">
+
+
+  <div class="bars">
+
+    <div
+      class="chart-bar required-bar"
+      [style.height.%]="p.required">
+      <span class="value">{{ p.required }}</span>
+    </div>
+
+    <div
+      class="chart-bar available-bar"
+      [style.height.%]="p.available">
+      <span class="value">{{ p.available }}</span>
+    </div>
+
+  </div>
+
+  <div class="project-name">
+    {{ p.name }}
+  </div>
+
+</div>
+
+    </div>
+
+  </div>
+
+</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><h3>Recent Alerts</h3><span class="badge badge-warning">Live</span></div>
+    <div class="alert-list">
+      <div class="alert-item critical"><span class="alert-icon">!</span><div><strong>Stock Out</strong><br><span class="text-muted">SKU-ELV-RAIL-01 at 0 Qty</span></div></div>
+      <div class="alert-item warning"><span class="alert-icon">!</span><div><strong>Putaway Pending</strong><br><span class="text-muted">GRN-20260610-01 unconfirmed</span></div></div>
+      <div class="alert-item info"><span class="alert-icon">i</span><div><strong>Low Stock Alert</strong><br><span class="text-muted">5 items below reorder level</span></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" style="margin-top:16px">
+  <div class="card-header"><h3>Stock Movements Today</h3><span class="badge badge-success">Live</span></div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Time</th><th>Type</th><th>SKU</th><th>From</th><th>To</th><th>Qty</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let m of movements">
+          <td>{{ m.performedAt | date:'shortTime' }}</td>
+          <td><span class="badge badge-primary">{{ m.movementType }}</span></td>
+          <td>{{ m.item?.skuCode || '-' }}</td>
+          <td>{{ m.sourceBin?.binCode || 'Inbound' }}</td>
+          <td>{{ m.destinationBin?.binCode || 'Outbound' }}</td>
+          <td>{{ m.qty }}</td>
+        </tr>
+        <tr *ngIf="!movements.length"><td colspan="6" class="text-center text-muted">No movements yet. Seed data to see live activity.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

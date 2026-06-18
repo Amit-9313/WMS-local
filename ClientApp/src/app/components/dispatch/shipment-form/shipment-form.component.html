@@ -1,0 +1,69 @@
+<div class="card">
+
+  <h3>Create Shipment</h3>
+
+  <div class="grid">
+
+    <div>
+      <label>Customer</label>
+      <select [(ngModel)]="shipment.customerId">
+        <option value="">Select</option>
+        <option *ngFor="let c of customers"
+                [value]="c.customerId">
+          {{c.customerName}}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label>Project</label>
+      <select [(ngModel)]="shipment.projectId">
+        <option value="">Select</option>
+        <option *ngFor="let p of projects"
+                [value]="p.projectId">
+          {{p.projectName}}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label>Planned Date</label>
+      <input type="date"
+             [(ngModel)]="shipment.plannedDate">
+    </div>
+
+    <div>
+      <label>Transport Mode</label>
+      <select [(ngModel)]="shipment.transportMode">
+        <option>Road</option>
+        <option>Rail</option>
+        <option>Air</option>
+        <option>Sea</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="mt">
+
+    <label>Courier Name</label>
+    <input [(ngModel)]="shipment.courierName">
+
+  </div>
+
+  <div class="mt">
+
+    <label>Delivery Address</label>
+
+    <textarea rows="3"
+              [(ngModel)]="shipment.deliveryAddress">
+    </textarea>
+
+  </div>
+
+  <button class="btn-primary"
+          (click)="submit()">
+    Save Shipment
+  </button>
+
+</div>

@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+button {
+  margin-right: 8px;
+  padding: 6px 12px;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #dbeafe;
+}

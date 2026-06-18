@@ -1,0 +1,11 @@
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.warning {
+  margin-top: 15px;
+  color: #dc2626;
+  font-weight: 600;
+}

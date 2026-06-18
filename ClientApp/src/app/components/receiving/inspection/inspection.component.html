@@ -1,0 +1,115 @@
+<div class="inspection-page">
+
+  <div class="page-header">
+    <h2>Quality Inspection</h2>
+
+    <button class="btn btn-primary">
+      + New Inspection
+    </button>
+  </div>
+
+  <!-- KPI Cards -->
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <span>Pending</span>
+      <strong>{{ pendingCount }}</strong>
+    </div>
+
+    <div class="stat-card success">
+      <span>Passed</span>
+      <strong>{{ passedCount }}</strong>
+    </div>
+
+    <div class="stat-card danger">
+      <span>Failed</span>
+      <strong>{{ failedCount }}</strong>
+    </div>
+
+  </div>
+
+  <!-- Table -->
+
+  <div class="table-card">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Inspection No</th>
+          <th>GRN No</th>
+          <th>Item</th>
+          <th>Received Qty</th>
+          <th>Accepted Qty</th>
+          <th>Rejected Qty</th>
+          <th>Inspector</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let ins of inspections">
+
+          <td>{{ ins.inspectionNo }}</td>
+          <td>{{ ins.grnNo }}</td>
+          <td>{{ ins.itemName }}</td>
+          <td>{{ ins.receivedQty }}</td>
+          <td>{{ ins.acceptedQty }}</td>
+          <td>{{ ins.rejectedQty }}</td>
+          <td>{{ ins.inspector }}</td>
+
+          <td>
+
+            <span class="badge pending"
+                  *ngIf="ins.status === 'Pending'">
+
+              Pending
+
+            </span>
+
+            <span class="badge passed"
+                  *ngIf="ins.status === 'Passed'">
+
+              Passed
+
+            </span>
+
+            <span class="badge failed"
+                  *ngIf="ins.status === 'Failed'">
+
+              Failed
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <button class="btn btn-success btn-sm"
+                    (click)="passInspection(ins)">
+
+              Pass
+
+            </button>
+
+            <button class="btn btn-danger btn-sm"
+                    (click)="failInspection(ins)">
+
+              Fail
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

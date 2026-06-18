@@ -1,0 +1,52 @@
+<table>
+
+  <thead>
+
+    <tr>
+      <th>Package</th>
+      <th>Project</th>
+      <th>Stage</th>
+      <th>Weight</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    <tr *ngFor="let p of packages">
+
+      <td>{{p.packageNumber}}</td>
+      <td>{{p.project}}</td>
+      <td>{{p.stage}}</td>
+      <td>{{p.weightKg}}</td>
+
+      <td>
+
+        <span class="status"
+              [ngClass]="p.status">
+
+          {{p.status}}
+
+        </span>
+
+      </td>
+
+      <td>
+
+        <button (click)="print.emit(p)">
+          Print
+        </button>
+
+        <button (click)="seal.emit(p)">
+          Seal
+        </button>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+
+</table>

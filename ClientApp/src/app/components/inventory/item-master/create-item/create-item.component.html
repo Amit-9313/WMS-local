@@ -1,0 +1,231 @@
+<div class="page-container">
+ 
+  <div class="page-header">
+    <div>
+      <h2>Create New Item</h2>
+      <p>Create and assign inventory item</p>
+    </div>
+  </div>
+ 
+  <div class="card">
+ 
+    <div class="form-grid">
+ 
+      <div class="form-group">
+        <label>Select Model</label>
+ 
+        <select [(ngModel)]="item.modelId"
+                (change)="onModelChange()">
+ 
+          <option value="">
+            Select Model
+          </option>
+ 
+          <option *ngFor="let model of models"
+                  [value]="model.id">
+ 
+            {{ model.modelName }}
+ 
+          </option>
+ 
+        </select>
+      </div>
+ 
+      <div class="form-group">
+        <label>Model Number</label>
+ 
+        <input type="text"
+               [value]="item.modelNumber"
+               readonly>
+      </div>
+ 
+      <div class="serial-wrapper">
+ 
+        <div class="form-group">
+ 
+          <label>Serial Number</label>
+ 
+          <input type="text"
+                 [(ngModel)]="item.serialNumber"
+                 (input)="generateQrCode()">
+ 
+        </div>
+ 
+        <div class="qr-preview"
+             *ngIf="qrImage"
+             (click)="openQrModal()">
+ 
+          <img [src]="qrImage">
+ 
+        </div>
+ 
+      </div>
+ 
+      <div class="form-group">
+ 
+        <label>Status</label>
+ 
+        <select [(ngModel)]="item.status">
+ 
+          <option value="Good">
+            Good
+          </option>
+ 
+          <option value="Defective">
+            Defective
+          </option>
+ 
+        </select>
+ 
+      </div>
+ 
+      <div class="form-group">
+ 
+        <label>Warehouse</label>
+ 
+        <select [(ngModel)]="item.warehouse"
+                (change)="onWarehouseChange()">
+ 
+          <option value="">
+            Select Warehouse
+          </option>
+ 
+          <option *ngFor="let warehouse of warehouses"
+                  [value]="warehouse.warehouseName">
+ 
+            {{ warehouse.warehouseName }}
+ 
+          </option>
+ 
+        </select>
+ 
+      </div>
+ 
+      <div class="form-group">
+ 
+        <label>Rack</label>
+ 
+        <select [(ngModel)]="item.rack"
+                (change)="onRackChange()">
+ 
+          <option value="">
+            Select Rack
+          </option>
+ 
+          <option *ngFor="let rack of availableRacks"
+                  [value]="rack.rackName">
+ 
+            {{ rack.rackName }}
+ 
+          </option>
+ 
+        </select>
+ 
+      </div>
+ 
+      <div class="form-group">
+ 
+        <label>Shelf</label>
+ 
+        <select [(ngModel)]="item.shelf">
+ 
+          <option value="">
+            Select Shelf
+          </option>
+ 
+          <option *ngFor="let shelf of availableShelves"
+                  [value]="shelf.shelfName">
+ 
+            {{ shelf.shelfName }}
+ 
+          </option>
+ 
+        </select>
+ 
+      </div>
+ 
+      <div class="form-group">
+ 
+        <label>Bin</label>
+ 
+        <select [(ngModel)]="item.bin">
+ 
+          <option value="">
+            Select Bin
+          </option>
+ 
+          <option *ngFor="let bin of bins"
+                  [value]="bin">
+ 
+            {{ bin }}
+ 
+          </option>
+ 
+        </select>
+ 
+      </div>
+ 
+      <div class="form-group">
+ 
+        <label>Project</label>
+ 
+        <input type="text"
+               [(ngModel)]="item.project">
+ 
+      </div>
+ 
+      <div class="form-group">
+ 
+        <label>Assignment ID</label>
+ 
+        <input type="text"
+               [(ngModel)]="item.assignmentId">
+ 
+      </div>
+ 
+    </div>
+ 
+    <div class="actions">
+ 
+      <button class="back-btn"
+              (click)="back()">
+ 
+        Cancel
+ 
+      </button>
+ 
+      <button class="save-btn"
+              (click)="save()">
+ 
+        Create Item
+ 
+      </button>
+ 
+    </div>
+ 
+  </div>
+ 
+</div>
+ 
+<div class="qr-modal"
+     *ngIf="showQrModal">
+ 
+  <div class="qr-modal-content">
+ 
+    <button class="close-btn"
+            (click)="closeQrModal()">
+ 
+      ✕
+ 
+    </button>
+ 
+    <img [src]="qrImage"
+         class="zoomed-qr">
+ 
+    <p>
+      {{ item.serialNumber }}
+    </p>
+ 
+  </div>
+ 
+</div>

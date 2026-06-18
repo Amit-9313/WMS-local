@@ -1,0 +1,137 @@
+<div class="details-page">
+
+  <div class="page-header">
+
+    <div>
+      <h2>GRN Details</h2>
+      <p>{{ grn.grnNumber }}</p>
+    </div>
+
+    <div class="header-actions">
+
+      <button class="btn btn-primary">
+        Print GRN
+      </button>
+
+      <button class="btn btn-success"
+              (click)="openBarcode()">
+
+        Generate Barcode
+
+      </button>
+
+      <button class="btn btn-warning"
+              (click)="openInspection()">
+
+        Start Inspection
+
+      </button>
+
+      <button class="btn btn-danger">
+        Close GRN
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Header Information -->
+
+  <div class="card">
+
+    <h3>Receipt Information</h3>
+
+    <div class="info-grid">
+
+      <div>
+        <label>GRN Number</label>
+        <span>{{ grn.grnNumber }}</span>
+      </div>
+
+      <div>
+        <label>PO Number</label>
+        <span>{{ grn.poNumber }}</span>
+      </div>
+
+      <div>
+        <label>Vendor</label>
+        <span>{{ grn.vendor }}</span>
+      </div>
+
+      <div>
+        <label>Invoice Number</label>
+        <span>{{ grn.invoiceNumber }}</span>
+      </div>
+
+      <div>
+        <label>Invoice Date</label>
+        <span>{{ grn.invoiceDate }}</span>
+      </div>
+
+      <div>
+        <label>Vehicle Number</label>
+        <span>{{ grn.vehicleNumber }}</span>
+      </div>
+
+      <div>
+        <label>Dock Zone</label>
+        <span>{{ grn.dockZone }}</span>
+      </div>
+
+      <div>
+        <label>Received By</label>
+        <span>{{ grn.receivedBy }}</span>
+      </div>
+
+      <div>
+        <label>Status</label>
+        <span class="status">
+          {{ grn.status }}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Line Items -->
+
+  <div class="card">
+
+    <h3>Received Items</h3>
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Item Code</th>
+          <th>Item Name</th>
+          <th>Received Qty</th>
+          <th>Accepted Qty</th>
+          <th>Rejected Qty</th>
+          <th>Batch No</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let item of items">
+
+          <td>{{ item.itemCode }}</td>
+          <td>{{ item.itemName }}</td>
+          <td>{{ item.receivedQty }}</td>
+          <td>{{ item.acceptedQty }}</td>
+          <td>{{ item.rejectedQty }}</td>
+          <td>{{ item.batchNo }}</td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

@@ -1,0 +1,49 @@
+<div class="section-header"><h2>Returns</h2></div>
+<div class="tab-nav">
+  <button class="tab-btn" [class.active]="activeTab==='customer'" (click)="activeTab='customer'">Customer Returns (CRN)</button>
+  <button class="tab-btn" [class.active]="activeTab==='vendor'" (click)="activeTab='vendor'">Vendor Returns (VRN)</button>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='customer'">
+  <div class="action-bar"><button class="btn btn-primary btn-sm" (click)="showCrnForm=true">+ New CRN</button></div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>CRN#</th><th>Customer</th><th>Reason</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let c of crns"><td>{{ c.crnNumber }}</td><td>{{ c.customer?.customerName || '-' }}</td><td>{{ c.returnReason }}</td><td><span class="badge" [class.badge-success]="c.status==='Completed'" [class.badge-warning]="c.status==='Pending'" [class.badge-primary]="c.status==='Approved'">{{ c.status }}</span></td></tr>
+        <tr *ngIf="!crns.length"><td colspan="4" class="text-center text-muted">No customer returns found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='vendor'">
+  <div class="action-bar"><button class="btn btn-primary btn-sm" (click)="showVrnForm=true">+ New VRN</button></div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>VRN#</th><th>Vendor</th><th>Reason</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let v of vrns"><td>{{ v.vrnNumber }}</td><td>{{ v.vendor?.vendorName || '-' }}</td><td>{{ v.returnReason }}</td><td><span class="badge" [class.badge-success]="v.status==='Completed'" [class.badge-warning]="v.status==='Pending'" [class.badge-primary]="v.status==='Approved'">{{ v.status }}</span></td></tr>
+        <tr *ngIf="!vrns.length"><td colspan="4" class="text-center text-muted">No vendor returns found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showCrnForm" (click)="showCrnForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>New Customer Return (CRN)</h3><button class="btn btn-sm btn-secondary" (click)="showCrnForm=false">✕</button></div>
+    <div class="form-group"><label>Customer</label><select class="form-control" [(ngModel)]="crnForm.customerId"><option value="">Select</option><option *ngFor="let c of customers" [value]="c.customerId">{{ c.customerName }}</option></select></div>
+    <div class="form-group"><label>Reason</label><textarea class="form-control" [(ngModel)]="crnForm.returnReason" rows="2"></textarea></div>
+    <button class="btn btn-primary btn-block" (click)="createCRN()">Create CRN</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showVrnForm" (click)="showVrnForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>New Vendor Return (VRN)</h3><button class="btn btn-sm btn-secondary" (click)="showVrnForm=false">✕</button></div>
+    <div class="form-group"><label>Vendor</label><select class="form-control" [(ngModel)]="vrnForm.vendorId"><option value="">Select</option><option *ngFor="let v of vendors" [value]="v.vendorId">{{ v.vendorName }}</option></select></div>
+    <div class="form-group"><label>Reason</label><textarea class="form-control" [(ngModel)]="vrnForm.returnReason" rows="2"></textarea></div>
+    <button class="btn btn-primary btn-block" (click)="createVRN()">Create VRN</button>
+  </div>
+</div>

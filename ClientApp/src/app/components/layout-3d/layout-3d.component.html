@@ -1,0 +1,19 @@
+<div class="section-header"><h2>3D Warehouse Layout</h2></div>
+<div class="layout-container">
+  <div class="canvas-wrapper">
+    <canvas #canvas width="750" height="420" (mousemove)="onMouseMove($event)" (mouseleave)="hoveredZone = ''"></canvas>
+    <div class="tooltip" *ngIf="hoveredZone" [style.left.px]="tooltipX" [style.top.px]="tooltipY">{{ hoveredZone }}</div>
+  </div>
+  <div class="legend-panel">
+    <h4>Legend</h4>
+    <div class="legend-item"><span class="legend-color" style="background:#38bdf8"></span>Dock</div>
+    <div class="legend-item"><span class="legend-color" style="background:#10b981"></span>Storage</div>
+    <div class="legend-item"><span class="legend-color" style="background:#f59e0b"></span>Staging</div>
+    <div class="legend-item"><span class="legend-color" style="background:#ef4444"></span>Quarantine</div>
+    <div class="legend-item"><span class="legend-color" style="background:#6366f1"></span>Picking Area</div>
+    <div class="zone-info" *ngIf="hoveredZone">
+      <strong>{{ hoveredZone }}</strong>
+      <p class="text-muted">Click to view zone details</p>
+    </div>
+  </div>
+</div>

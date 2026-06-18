@@ -1,0 +1,144 @@
+
+<div class="tab-nav">
+  <button class="tab-btn" [class.active]="activeTab==='warehouses'" (click)="activeTab='warehouses'">Warehouses</button>
+  <button class="tab-btn" [class.active]="activeTab==='zones'" (click)="activeTab='zones'; loadZones()">Zones</button>
+  <button class="tab-btn" [class.active]="activeTab==='racks'" (click)="activeTab='racks'; loadRacks()">Racks & Bins</button>
+  <button class="tab-btn" [class.active]="activeTab==='items'" (click)="activeTab='items'">Items/SKUs</button>
+  <button class="tab-btn" [class.active]="activeTab==='parties'" (click)="activeTab='parties'">Vendors & Customers</button>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='warehouses'">
+  <div class="action-bar"><button class="btn btn-primary btn-sm" (click)="showWhForm=true">+ Add Warehouse</button></div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Code</th><th>Name</th><th>Address</th><th>Timezone</th><th>Area (sqft)</th><th>Active</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let w of warehouses"><td>{{ w.warehouseCode }}</td><td>{{ w.warehouseName }}</td><td>{{ w.address || '-' }}</td><td>{{ w.timezone }}</td><td>{{ w.totalAreaSqFt || '-' }}</td><td><span class="badge" [class.badge-success]="w.isActive" [class.badge-danger]="!w.isActive">{{ w.isActive ? 'Yes' : 'No' }}</span></td><td><button class="btn btn-sm btn-secondary" (click)="editWarehouse(w)">Edit</button><button class="btn btn-sm btn-danger" (click)="deleteWarehouse(w)">Delete</button></td></tr>
+        <tr *ngIf="!warehouses.length"><td colspan="7" class="text-center text-muted">No warehouses found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='zones'">
+  <div class="action-bar"><button class="btn btn-primary btn-sm" (click)="showZoneForm=true">+ Add Zone</button></div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Code</th><th>Name</th><th>Warehouse</th><th>Type</th><th>Stage</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let z of zones"><td>{{ z.zoneCode }}</td><td>{{ z.zoneName }}</td><td>{{ getWhName(z.warehouseId) }}</td><td><span class="badge badge-primary">{{ z.zoneType }}</span></td><td>{{ z.stageAssignment || '-' }}</td><td><button class="btn btn-sm btn-secondary" (click)="editZone(z)">Edit</button><button class="btn btn-sm btn-danger" (click)="deleteZone(z)">Delete</button></td></tr>
+        <tr *ngIf="!zones.length"><td colspan="6" class="text-center text-muted">Select a warehouse first.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='racks'">
+  <div class="action-bar"><button class="btn btn-primary btn-sm" (click)="showRackForm=true">+ Add Rack</button></div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Rack Code</th><th>Zone</th><th>Levels</th><th>Orientation</th><th>LxWxH</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let r of racks"><td>{{ r.rackCode }}</td><td>{{ getZoneName(r.zoneId) }}</td><td>{{ r.levelCount }}</td><td>{{ r.orientation }}</td><td>{{ r.length }}x{{ r.width }}x{{ r.height }}</td><td><button class="btn btn-sm btn-secondary" (click)="editRack(r)">Edit</button><button class="btn btn-sm btn-danger" (click)="deleteRack(r)">Delete</button></td></tr>
+        <tr *ngIf="!racks.length"><td colspan="6" class="text-center text-muted">No racks found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='items'">
+  <div class="action-bar"><button class="btn btn-primary btn-sm" (click)="showItemForm=true">+ Add Item</button></div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>SKU</th><th>Name</th><th>Description</th><th>HSN</th><th>Std Cost</th><th>Min Qty</th><th>Active</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let i of items"><td>{{ i.skuCode }}</td><td>{{ i.itemName }}</td><td>{{ i.description || '-' }}</td><td>{{ i.hsnCode || '-' }}</td><td>{{ i.standardCost | currency:'INR' }}</td><td>{{ i.minStockQty || '-' }}</td><td><span class="badge" [class.badge-success]="i.isActive" [class.badge-danger]="!i.isActive">{{ i.isActive ? 'Yes' : 'No' }}</span></td><td><button class="btn btn-sm btn-secondary" (click)="editItem(i)">Edit</button><button class="btn btn-sm btn-danger" (click)="deleteItem(i)">Delete</button></td></tr>
+        <tr *ngIf="!items.length"><td colspan="8" class="text-center text-muted">No items found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='parties'">
+  <div class="side-layout">
+    <div class="side-panel">
+      <h4>Vendors</h4>
+      <button class="btn btn-primary btn-sm btn-block" (click)="showVendorForm=true">+ Add Vendor</button>
+      <div class="mini-list"><div class="mini-item" *ngFor="let v of vendors"><strong>{{ v.vendorCode }}</strong><span class="text-muted">{{ v.vendorName }}</span></div></div>
+    </div>
+    <div class="flex-grow">
+      <h4>Customers</h4>
+      <button class="btn btn-primary btn-sm" (click)="showCustomerForm=true">+ Add Customer</button>
+      <div class="table-wrapper" style="margin-top:8px">
+        <table>
+          <thead><tr><th>Code</th><th>Name</th><th>Contact</th><th>Project</th><th>GST</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let c of customers"><td>{{ c.customerCode }}</td><td>{{ c.customerName }}</td><td>{{ c.contactPerson || '-' }}</td><td>{{ c.projectName || '-' }}</td><td>{{ c.gstNumber || '-' }}</td><td><button class="btn btn-sm btn-secondary">Edit</button></td></tr>
+            <tr *ngIf="!customers.length"><td colspan="6" class="text-center text-muted">No customers found.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showWhForm" (click)="showWhForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>{{ whForm.warehouseId ? 'Edit' : 'Add' }} Warehouse</h3><button class="btn btn-sm btn-secondary" (click)="showWhForm=false">✕</button></div>
+    <div class="grid-2col"><div class="form-group"><label>Code</label><input class="form-control" [(ngModel)]="whForm.warehouseCode" /></div><div class="form-group"><label>Name</label><input class="form-control" [(ngModel)]="whForm.warehouseName" /></div></div>
+    <div class="form-group"><label>Address</label><input class="form-control" [(ngModel)]="whForm.address" /></div>
+    <div class="grid-2col"><div class="form-group"><label>Timezone</label><input class="form-control" [(ngModel)]="whForm.timezone" /></div><div class="form-group"><label>Area (sqft)</label><input type="number" class="form-control" [(ngModel)]="whForm.totalAreaSqFt" /></div></div>
+    <button class="btn btn-primary btn-block" (click)="saveWarehouse()">{{ whForm.warehouseId ? 'Update' : 'Create' }}</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showZoneForm" (click)="showZoneForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>{{ zoneForm.zoneId ? 'Edit' : 'Add' }} Zone</h3><button class="btn btn-sm btn-secondary" (click)="showZoneForm=false">✕</button></div>
+    <div class="form-group"><label>Warehouse</label><select class="form-control" [(ngModel)]="zoneForm.warehouseId"><option value="">Select</option><option *ngFor="let w of warehouses" [value]="w.warehouseId">{{ w.warehouseName }}</option></select></div>
+    <div class="grid-2col"><div class="form-group"><label>Code</label><input class="form-control" [(ngModel)]="zoneForm.zoneCode" /></div><div class="form-group"><label>Name</label><input class="form-control" [(ngModel)]="zoneForm.zoneName" /></div></div>
+    <div class="grid-2col"><div class="form-group"><label>Type</label><select class="form-control" [(ngModel)]="zoneForm.zoneType"><option>Storage</option><option>Dock</option><option>Staging</option><option>Quarantine</option></select></div><div class="form-group"><label>Stage</label><input class="form-control" [(ngModel)]="zoneForm.stageAssignment" /></div></div>
+    <button class="btn btn-primary btn-block" (click)="saveZone()">{{ zoneForm.zoneId ? 'Update' : 'Create' }}</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showRackForm" (click)="showRackForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>{{ rackForm.rackId ? 'Edit' : 'Add' }} Rack</h3><button class="btn btn-sm btn-secondary" (click)="showRackForm=false">✕</button></div>
+    <div class="form-group"><label>Zone</label><select class="form-control" [(ngModel)]="rackForm.zoneId"><option value="">Select</option><option *ngFor="let z of zones" [value]="z.zoneId">{{ z.zoneCode }}</option></select></div>
+    <div class="grid-2col"><div class="form-group"><label>Rack Code</label><input class="form-control" [(ngModel)]="rackForm.rackCode" /></div><div class="form-group"><label>Levels</label><input type="number" class="form-control" [(ngModel)]="rackForm.levelCount" /></div></div>
+    <div class="grid-2col"><div class="form-group"><label>Orientation</label><select class="form-control" [(ngModel)]="rackForm.orientation"><option>Horizontal</option><option>Vertical</option></select></div><div class="form-group"><label>LxWxH</label><div class="inline-group"><input class="form-control" [(ngModel)]="rackForm.length" placeholder="L" /><input class="form-control" [(ngModel)]="rackForm.width" placeholder="W" /><input class="form-control" [(ngModel)]="rackForm.height" placeholder="H" /></div></div></div>
+    <button class="btn btn-primary btn-block" (click)="saveRack()">{{ rackForm.rackId ? 'Update' : 'Create' }}</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showItemForm" (click)="showItemForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>{{ itemForm.itemId ? 'Edit' : 'Add' }} Item</h3><button class="btn btn-sm btn-secondary" (click)="showItemForm=false">✕</button></div>
+    <div class="grid-2col"><div class="form-group"><label>SKU Code</label><input class="form-control" [(ngModel)]="itemForm.skuCode" /></div><div class="form-group"><label>Item Name</label><input class="form-control" [(ngModel)]="itemForm.itemName" /></div></div>
+    <div class="form-group"><label>Description</label><input class="form-control" [(ngModel)]="itemForm.description" /></div>
+    <div class="grid-2col"><div class="form-group"><label>HSN Code</label><input class="form-control" [(ngModel)]="itemForm.hsnCode" /></div><div class="form-group"><label>Std Cost</label><input type="number" class="form-control" [(ngModel)]="itemForm.standardCost" /></div></div>
+    <div class="grid-2col"><div class="form-group"><label>Min Stock Qty</label><input type="number" class="form-control" [(ngModel)]="itemForm.minStockQty" /></div><div class="form-group"><label>UOM</label><input class="form-control" [(ngModel)]="itemForm.uomId" /></div></div>
+    <button class="btn btn-primary btn-block" (click)="saveItem()">{{ itemForm.itemId ? 'Update' : 'Create' }}</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showVendorForm" (click)="showVendorForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>Add Vendor</h3><button class="btn btn-sm btn-secondary" (click)="showVendorForm=false">✕</button></div>
+    <div class="grid-2col"><div class="form-group"><label>Code</label><input class="form-control" [(ngModel)]="vendorForm.vendorCode" /></div><div class="form-group"><label>Name</label><input class="form-control" [(ngModel)]="vendorForm.vendorName" /></div></div>
+    <div class="grid-2col"><div class="form-group"><label>Contact</label><input class="form-control" [(ngModel)]="vendorForm.contactPerson" /></div><div class="form-group"><label>Email</label><input class="form-control" [(ngModel)]="vendorForm.email" /></div></div>
+    <div class="grid-2col"><div class="form-group"><label>Mobile</label><input class="form-control" [(ngModel)]="vendorForm.mobile" /></div><div class="form-group"><label>GST</label><input class="form-control" [(ngModel)]="vendorForm.gstNumber" /></div></div>
+    <button class="btn btn-primary btn-block" (click)="saveVendor()">Create</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showCustomerForm" (click)="showCustomerForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>Add Customer</h3><button class="btn btn-sm btn-secondary" (click)="showCustomerForm=false">✕</button></div>
+    <div class="grid-2col"><div class="form-group"><label>Code</label><input class="form-control" [(ngModel)]="customerForm.customerCode" /></div><div class="form-group"><label>Name</label><input class="form-control" [(ngModel)]="customerForm.customerName" /></div></div>
+    <div class="grid-2col"><div class="form-group"><label>Contact</label><input class="form-control" [(ngModel)]="customerForm.contactPerson" /></div><div class="form-group"><label>Mobile</label><input class="form-control" [(ngModel)]="customerForm.mobile" /></div></div>
+    <div class="grid-2col"><div class="form-group"><label>GST</label><input class="form-control" [(ngModel)]="customerForm.gstNumber" /></div><div class="form-group"><label>Project</label><input class="form-control" [(ngModel)]="customerForm.projectName" /></div></div>
+    <button class="btn btn-primary btn-block" (click)="saveCustomer()">Create</button>
+  </div>
+</div>

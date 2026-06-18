@@ -1,0 +1,32 @@
+<div class="card">
+
+  <h3>Assign Packages</h3>
+
+  <table>
+
+    <tr *ngFor="let p of packages">
+
+      <td>
+        <input type="checkbox"
+               [(ngModel)]="p.selected">
+      </td>
+
+      <td>{{p.packageNumber}}</td>
+
+      <td>{{p.weight}} kg</td>
+
+      <td>{{p.status}}</td>
+
+    </tr>
+
+  </table>
+
+  <div class="summary">
+
+    <div>Total Packages : {{totalPackages}}</div>
+
+    <div>Total Weight : {{totalWeight}} kg</div>
+
+  </div>
+
+</div>

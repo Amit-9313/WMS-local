@@ -1,0 +1,138 @@
+<div class="section-header">
+</div>
+
+<!-- KPI -->
+
+<div class="kpi-grid">
+
+  <div class="kpi-card">
+    <span>Total Shipments</span>
+    <h3>{{shipments.length}}</h3>
+  </div>
+
+  <div class="kpi-card">
+    <span>Draft</span>
+    <h3>{{draftCount}}</h3>
+  </div>
+
+  <div class="kpi-card">
+    <span>Dispatched</span>
+    <h3>{{dispatchedCount}}</h3>
+  </div>
+
+  <div class="kpi-card">
+    <span>Delivered</span>
+    <h3>{{deliveredCount}}</h3>
+  </div>
+
+</div>
+
+<!-- STATUS TABS -->
+
+<div class="status-tabs">
+
+  <button *ngFor="let tab of statusTabs"
+          class="status-btn"
+          [class.active]="activeStatus===tab"
+          (click)="activeStatus=tab">
+
+    {{tab}}
+
+  </button>
+
+</div>
+
+<!-- SHIPMENT TABLE -->
+
+<div class="table-card">
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>Shipment</th>
+        <th>Customer</th>
+        <th>Transport</th>
+        <th>E-Way Bill</th>
+        <th>Packages</th>
+        <th>Status</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let s of shipments">
+
+        <td>{{s.shipmentNumber}}</td>
+
+        <td>
+          {{s.customer?.customerName || '-'}}
+        </td>
+
+        <td>{{s.transportMode}}</td>
+
+        <td>{{s.ewayBillNumber || '-'}}</td>
+
+        <td>{{s.totalPackages}}</td>
+
+        <td>
+
+          <span class="badge">
+            {{s.status}}
+          </span>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal-overlay"
+     *ngIf="showCreateForm">
+
+  <div class="wizard-modal">
+
+    <div class="modal-header">
+
+      <h3>Create Shipment</h3>
+
+      <button class="btn btn-secondary"
+              (click)="showCreateForm=false">
+
+        ✕
+
+      </button>
+
+    </div>
+
+    <div class="wizard-grid">
+
+      <app-shipment-form [customers]="customers"
+                         (save)="saveShipment($event)">
+      </app-shipment-form>
+
+      <app-package-assignment [packages]="shipmentPackages">
+      </app-package-assignment>
+
+      <app-e-way-bill>
+      </app-e-way-bill>
+
+      <app-dispatch-confirm (confirm)="confirmDispatch($event)">
+      </app-dispatch-confirm>
+
+      <app-pod-upload>
+      </app-pod-upload>
+
+    </div>
+
+  </div>
+
+</div>

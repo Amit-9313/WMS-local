@@ -1,0 +1,52 @@
+<div class="package-form">
+
+  <div class="form-group">
+    <label>Project</label>
+    <input class="form-control"
+           [(ngModel)]="packageData.project">
+  </div>
+
+  <div class="form-group">
+    <label>Stage</label>
+    <input class="form-control"
+           [(ngModel)]="packageData.stage">
+  </div>
+
+  <div class="grid">
+
+    <div>
+      <label>Weight (kg)</label>
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="packageData.weight">
+    </div>
+
+    <div>
+      <label>Length</label>
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="packageData.length">
+    </div>
+
+    <div>
+      <label>Width</label>
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="packageData.width">
+    </div>
+
+    <div>
+      <label>Height</label>
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="packageData.height">
+    </div>
+
+  </div>
+
+  <button class="btn-primary"
+          (click)="create()">
+    Create Package
+  </button>
+
+</div>

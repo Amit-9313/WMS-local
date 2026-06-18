@@ -1,0 +1,12 @@
+<div class="label">
+
+  <h3>{{packageNumber}}</h3>
+
+  <ngx-barcode6 value="{{packageNumber}}">
+  </ngx-barcode6>
+
+  <qrcode [qrdata]="packageNumber"
+          [width]="150">
+  </qrcode>
+
+</div>

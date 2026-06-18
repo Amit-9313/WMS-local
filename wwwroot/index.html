@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usha Elevators - Warehouse Management System</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- LOGIN OVERLAY -->
+  <div id="login-overlay" class="modal-overlay" style="display:flex">
+    <div class="modal-content login-card">
+      <div class="login-logo">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+          <line x1="12" y1="22.08" x2="12" y2="12"/>
+        </svg>
+      </div>
+      <h2>Usha Elevators WMS</h2>
+      <p class="login-subtitle">Warehouse Management System</p>
+      <form id="login-form">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="login-username" class="form-control" value="admin" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" class="form-control" value="Admin@123" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" style="display:none">
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" y1="22.08" x2="12" y2="12"/>
+      </svg>
+      <h2>Usha WMS</h2>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-section">Operations</div>
+      <a class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" data-tab="procurement" onclick="switchTab('procurement')">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>Procurement</span>
+      </a>
+      <a class="nav-item" data-tab="receiving" onclick="switchTab('receiving')">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span>Receiving (GRN)</span>
+      </a>
+
+      <div class="nav-section">Warehouse</div>
+      <a class="nav-item" data-tab="inventory" onclick="switchTab('inventory')">
+        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>Inventory</span>
+      </a>
+      <a class="nav-item" data-tab="putaway" onclick="switchTab('putaway')">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        <span>Putaway</span>
+      </a>
+      <a class="nav-item" data-tab="warehouse-setup" onclick="switchTab('warehouse-setup')">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Warehouse Setup</span>
+      </a>
+      <a class="nav-item" data-tab="layout" onclick="switchTab('layout')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+        <span>3D Layout</span>
+      </a>
+
+      <div class="nav-section">Projects</div>
+      <a class="nav-item" data-tab="projects" onclick="switchTab('projects')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+        <span>Projects &amp; BOM</span>
+      </a>
+
+      <div class="nav-section">Outbound</div>
+      <a class="nav-item" data-tab="picking" onclick="switchTab('picking')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+        <span>Picking</span>
+      </a>
+      <a class="nav-item" data-tab="packing" onclick="switchTab('packing')">
+        <svg viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5" rx="1"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+        <span>Packing</span>
+      </a>
+      <a class="nav-item" data-tab="dispatch" onclick="switchTab('dispatch')">
+        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>Dispatch</span>
+      </a>
+
+      <div class="nav-section">Quality</div>
+      <a class="nav-item" data-tab="quality" onclick="switchTab('quality')">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Quality</span>
+      </a>
+
+      <div class="nav-section">Returns</div>
+      <a class="nav-item" data-tab="returns" onclick="switchTab('returns')">
+        <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        <span>Returns</span>
+      </a>
+
+      <div class="nav-section">Reports</div>
+      <a class="nav-item" data-tab="reports" onclick="switchTab('reports')">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Reports</span>
+      </a>
+    </nav>
+
+    <div class="user-panel">
+      <div class="user-avatar">AD</div>
+      <div class="user-info">
+        <div class="user-name">Admin User</div>
+        <div class="user-role">Super Admin</div>
+      </div>
+      <button class="btn-icon" onclick="logout()" title="Logout">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main style="display:none">
+    <header>
+      <div class="header-left">
+        <h1 id="page-title">Dashboard</h1>
+        <span class="header-badge">Production</span>
+      </div>
+      <div class="header-right">
+        <div class="notification-bell" onclick="toggleNotifications()">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="bell-dot" id="notif-count">3</span>
+        </div>
+        <div class="notification-dropdown" id="notif-dropdown">
+          <div class="notif-item urgent"><span class="notif-dot"></span> Stock Out: SKU-ELV-RAIL-01</div>
+          <div class="notif-item warning"><span class="notif-dot"></span> GRN Putaway Pending</div>
+          <div class="notif-item info"><span class="notif-dot"></span> Low Stock Alert: 5 items</div>
+        </div>
+        <div class="header-search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search SKU, bin, PO..." id="global-search">
+        </div>
+      </div>
+    </header>
+
+    <div class="content" id="content-area">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div id="tab-dashboard" class="tab-content active">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background:rgba(14,165,233,0.12)">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Total Stock Value</span>
+              <span class="kpi-value">₹ 2,45,600</span>
+              <span class="kpi-trend up">▲ +12% vs last month</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background:rgba(16,185,129,0.12)">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Active SKUs</span>
+              <span class="kpi-value" id="dash-skus">0</span>
+              <span class="kpi-trend">Live ledger</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background:rgba(139,92,246,0.12)">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Bin Utilization</span>
+              <span class="kpi-value" id="dash-util">42.5%</span>
+              <span class="kpi-trend up">Avg active load</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background:rgba(245,158,11,0.12)">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Active Projects</span>
+              <span class="kpi-value" id="dash-projects">0</span>
+              <span class="kpi-trend">Stages in progress</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background:rgba(239,68,68,0.12)">
+              <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Pending Tasks</span>
+              <span class="kpi-value">12</span>
+              <span class="kpi-trend down">▼ 3 overdue</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background:rgba(6,182,212,0.12)">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span class="kpi-label">Accuracy Rate</span>
+              <span class="kpi-value">98.2%</span>
+              <span class="kpi-trend up">▲ +0.5%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <div class="card">
+            <div class="card-header">
+              <h3>Project Stock Status</h3>
+              <span class="badge badge-primary">Required vs Available</span>
+            </div>
+            <div class="chart-placeholder" id="dash-chart-projects">
+              <div class="bar-chart">
+                <div class="bar-group"><div class="bar bar-blue" style="height:80%"></div><div class="bar bar-green" style="height:50%"></div><span>Hilton</span></div>
+                <div class="bar-group"><div class="bar bar-blue" style="height:95%"></div><div class="bar bar-green" style="height:90%"></div><span>Ritz C1</span></div>
+                <div class="bar-group"><div class="bar bar-blue" style="height:60%"></div><div class="bar bar-green" style="height:20%"></div><span>Skyline</span></div>
+                <div class="bar-group"><div class="bar bar-blue" style="height:45%"></div><div class="bar bar-green" style="height:40%"></div><span>Ocean</span></div>
+                <div class="bar-group"><div class="bar bar-blue" style="height:75%"></div><div class="bar bar-green" style="height:65%"></div><span>Park Ave</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3>Recent Alerts</h3>
+              <span class="badge badge-warning">Live</span>
+            </div>
+            <div class="alert-list">
+              <div class="alert-item critical">
+                <span class="alert-icon">!</span>
+                <div><strong>Stock Out</strong><br><span class="text-muted">SKU-ELV-RAIL-01 at 0 Qty</span></div>
+              </div>
+              <div class="alert-item warning">
+                <span class="alert-icon">!</span>
+                <div><strong>Putaway Pending</strong><br><span class="text-muted">GRN-20260610-01 unconfirmed</span></div>
+              </div>
+              <div class="alert-item info">
+                <span class="alert-icon">i</span>
+                <div><strong>Low Stock Alert</strong><br><span class="text-muted">5 items below reorder level</span></div>
+              </div>
+              <div class="alert-item info">
+                <span class="alert-icon">i</span>
+                <div><strong>QC Hold</strong><br><span class="text-muted">2 items in Quarantine &gt; 48hrs</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <div class="card-header">
+            <h3>Stock Movements Today</h3>
+            <span class="badge badge-success">Live via SignalR</span>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Time</th><th>Type</th><th>SKU</th><th>From</th><th>To</th><th>Qty</th><th>User</th></tr></thead>
+              <tbody id="dash-movements">
+                <tr><td colspan="7" class="text-center text-muted">Connect and seed data to see live movements</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PROCUREMENT ===== -->
+      <div id="tab-procurement" class="tab-content">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-sub="pr-list" onclick="switchSubTab('procurement', 'pr-list', this)">Purchase Requisitions</button>
+          <button class="tab-btn" data-sub="po-list" onclick="switchSubTab('procurement', 'po-list', this)">Purchase Orders</button>
+        </div>
+
+        <div id="sub-procurement-pr-list" class="sub-tab-content active">
+          <div class="card">
+            <div class="card-header">
+              <h3>Purchase Requisitions</h3>
+              <button class="btn btn-primary btn-sm" onclick="showModal('modal-pr')">+ New PR</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>PR #</th><th>Requestor</th><th>Department</th><th>Priority</th><th>Required By</th><th>Status</th><th>Approval</th><th>Action</th></tr></thead>
+                <tbody id="pr-list-body">
+                  <tr><td colspan="8" class="text-center text-muted">No requisitions found</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-procurement-po-list" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header">
+              <h3>Purchase Orders</h3>
+              <button class="btn btn-primary btn-sm" onclick="showModal('modal-po')">+ Create PO</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>PO #</th><th>Vendor</th><th>Warehouse</th><th>Date</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="po-list-body">
+                  <tr><td colspan="7" class="text-center text-muted">No purchase orders</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== RECEIVING (GRN) ===== -->
+      <div id="tab-receiving" class="tab-content">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-sub="grn-list" onclick="switchSubTab('receiving', 'grn-list', this)">Goods Receipt Notes</button>
+          <button class="tab-btn" data-sub="grn-inspect" onclick="switchSubTab('receiving', 'grn-inspect', this)">Quality Inspection</button>
+        </div>
+
+        <div id="sub-receiving-grn-list" class="sub-tab-content active">
+          <div class="card">
+            <div class="card-header">
+              <h3>Goods Receipt Notes (GRN)</h3>
+              <button class="btn btn-primary btn-sm" onclick="showModal('modal-grn')">+ New GRN</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>GRN #</th><th>PO Ref</th><th>Vendor</th><th>Invoice</th><th>Dock</th><th>Received At</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="grn-list-body">
+                  <tr><td colspan="8" class="text-center text-muted">No receipts logged</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-receiving-grn-inspect" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header">
+              <h3>Quality Inspection Queue</h3>
+              <span class="badge badge-warning">Pending: 0</span>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Inspection #</th><th>GRN Line</th><th>Item</th><th>Lot</th><th>Sample</th><th>Pass</th><th>Fail</th><th>Result</th><th>Action</th></tr></thead>
+                <tbody id="inspect-list-body">
+                  <tr><td colspan="9" class="text-center text-muted">No pending inspections</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== INVENTORY ===== -->
+      <div id="tab-inventory" class="tab-content">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-sub="stock-ledger" onclick="switchSubTab('inventory', 'stock-ledger', this)">Stock Ledger</button>
+          <button class="tab-btn" data-sub="stock-moves" onclick="switchSubTab('inventory', 'stock-moves', this)">Movements</button>
+          <button class="tab-btn" data-sub="cycle-count" onclick="switchSubTab('inventory', 'cycle-count', this)">Cycle Count</button>
+          <button class="tab-btn" data-sub="transfers" onclick="switchSubTab('inventory', 'transfers', this)">Transfers</button>
+        </div>
+
+        <div id="sub-inventory-stock-ledger" class="sub-tab-content active">
+          <div class="card">
+            <div class="card-header">
+              <h3>Stock Ledger</h3>
+              <div class="card-actions">
+                <input type="text" class="form-control form-control-sm" placeholder="Filter by SKU..." id="stock-filter" oninput="filterStock(this.value)">
+                <button class="btn btn-secondary btn-sm" onclick="showModal('modal-adjust')">Adjust Stock</button>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>SKU Code</th><th>Item Name</th><th>Warehouse</th><th>Bin</th><th>Lot</th><th>On Hand</th><th>Reserved</th><th>Available</th><th>Valuation</th></tr></thead>
+                <tbody id="stock-ledger-body">
+                  <tr><td colspan="9" class="text-center text-muted">No stock data</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-inventory-stock-moves" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header">
+              <h3>Stock Movement Log</h3>
+              <button class="btn btn-secondary btn-sm" onclick="showModal('modal-move')">+ New Movement</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Txn #</th><th>Type</th><th>Item</th><th>From Bin</th><th>To Bin</th><th>Qty</th><th>User</th><th>Date</th></tr></thead>
+                <tbody id="movements-body">
+                  <tr><td colspan="8" class="text-center text-muted">No movements recorded</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-inventory-cycle-count" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header">
+              <h3>Cycle Count Sheets</h3>
+              <button class="btn btn-primary btn-sm" onclick="showModal('modal-cycle')">+ New Count</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Sheet #</th><th>Date</th><th>Warehouse</th><th>Zone</th><th>Type</th><th>Status</th><th>Variance</th><th>Action</th></tr></thead>
+                <tbody id="cycle-list-body">
+                  <tr><td colspan="8" class="text-center text-muted">No count sheets</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-inventory-transfers" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header">
+              <h3>Stock Transfers (Warehouse-to-Warehouse)</h3>
+              <button class="btn btn-primary btn-sm" onclick="showModal('modal-transfer')">+ New Transfer</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Transfer #</th><th>From WH</th><th>To WH</th><th>Items</th><th>Status</th><th>Requested By</th><th>Date</th></tr></thead>
+                <tbody id="transfer-list-body">
+                  <tr><td colspan="7" class="text-center text-muted">No transfers</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PUTAWAY ===== -->
+      <div id="tab-putaway" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Putaway Tasks</h3>
+            <span class="badge badge-primary">Auto-slotting enabled</span>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Task Ref</th><th>Item</th><th>Lot</th><th>Dock Bin</th><th>Target Bin</th><th>Qty</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="putaway-body">
+                <tr><td colspan="8" class="text-center text-muted">No active putaway tasks. Confirm a GRN to generate.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== WAREHOUSE SETUP ===== -->
+      <div id="tab-warehouse-setup" class="tab-content">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-sub="wh-list" onclick="switchSubTab('warehouse-setup', 'wh-list', this)">Warehouses</button>
+          <button class="tab-btn" data-sub="zone-list" onclick="switchSubTab('warehouse-setup', 'zone-list', this)">Zones</button>
+          <button class="tab-btn" data-sub="rack-bins" onclick="switchSubTab('warehouse-setup', 'rack-bins', this)">Racks &amp; Bins</button>
+          <button class="tab-btn" data-sub="items" onclick="switchSubTab('warehouse-setup', 'items', this)">Items / SKUs</button>
+          <button class="tab-btn" data-sub="masters" onclick="switchSubTab('warehouse-setup', 'masters', this)">Vendors &amp; Customers</button>
+        </div>
+
+        <div id="sub-warehouse-setup-wh-list" class="sub-tab-content active">
+          <div class="split-panel">
+            <div class="card flex-grow">
+              <div class="card-header"><h3>Warehouse Directory</h3></div>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr><th>Code</th><th>Name</th><th>Address</th><th>Timezone</th><th>Area (sq ft)</th><th>Status</th></tr></thead>
+                  <tbody id="wh-list-body">
+                    <tr><td colspan="6" class="text-center text-muted">No warehouses. Add one using the form.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="side-panel">
+              <h3>Add Warehouse</h3>
+              <form id="form-wh">
+                <div class="form-group"><label>Code</label><input type="text" class="form-control" id="wh-code" placeholder="WH-001" required></div>
+                <div class="form-group"><label>Name</label><input type="text" class="form-control" id="wh-name" placeholder="Mumbai Hub" required></div>
+                <div class="form-group"><label>Timezone</label><input type="text" class="form-control" id="wh-tz" value="Asia/Kolkata"></div>
+                <div class="form-group"><label>Area (sq ft)</label><input type="number" class="form-control" id="wh-area" placeholder="50000"></div>
+                <button type="submit" class="btn btn-primary btn-block">Save Warehouse</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-warehouse-setup-zone-list" class="sub-tab-content">
+          <div class="split-panel">
+            <div class="card flex-grow">
+              <div class="card-header"><h3>Zones</h3></div>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr><th>Warehouse</th><th>Code</th><th>Name</th><th>Type</th><th>Stage</th><th>Color</th></tr></thead>
+                  <tbody id="zone-list-body">
+                    <tr><td colspan="6" class="text-center text-muted">No zones</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="side-panel">
+              <h3>Add Zone</h3>
+              <form id="form-zone">
+                <div class="form-group"><label>Warehouse</label><select class="form-control" id="zone-wh"></select></div>
+                <div class="form-group"><label>Code</label><input type="text" class="form-control" id="zone-code" placeholder="Z-STORAGE-01"></div>
+                <div class="form-group"><label>Name</label><input type="text" class="form-control" id="zone-name" placeholder="Bulk Storage"></div>
+                <div class="form-group"><label>Type</label><select class="form-control" id="zone-type"><option>Storage</option><option>Dock</option><option>Staging</option><option>Quarantine</option></select></div>
+                <button type="submit" class="btn btn-primary btn-block">Create Zone</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-warehouse-setup-rack-bins" class="sub-tab-content">
+          <div class="split-panel">
+            <div class="card flex-grow">
+              <div class="card-header"><h3>Racks &amp; Bins Registry</h3></div>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr><th>Bin Code</th><th>Rack</th><th>Zone</th><th>Weight Cap</th><th>Volume Cap</th><th>Mix Rule</th><th>Status</th></tr></thead>
+                  <tbody id="bin-list-body">
+                    <tr><td colspan="7" class="text-center text-muted">No bins</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="side-panel">
+              <h3>Quick Seed Bin</h3>
+              <form id="form-bin">
+                <div class="form-group"><label>Zone</label><select class="form-control" id="bin-zone"></select></div>
+                <div class="form-group"><label>Bin Code</label><input type="text" class="form-control" id="bin-code" placeholder="WH1-Z-L-R001-S01-B01"></div>
+                <div class="form-group"><label>Weight Cap (Kg)</label><input type="number" class="form-control" id="bin-weight" value="1000"></div>
+                <div class="form-group"><label>Volume Cap (L)</label><input type="number" class="form-control" id="bin-volume" value="500"></div>
+                <div class="form-group"><label>Mix Rule</label><select class="form-control" id="bin-mix"><option value="Multi">Multi</option><option value="Single">Single</option><option value="ProjectStage">ProjectStage</option></select></div>
+                <button type="submit" class="btn btn-primary btn-block">Create Bin</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-warehouse-setup-items" class="sub-tab-content">
+          <div class="split-panel">
+            <div class="card flex-grow">
+              <div class="card-header"><h3>Item / SKU Master</h3></div>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr><th>SKU Code</th><th>Item Name</th><th>Category</th><th>UOM</th><th>HSN</th><th>Std Cost</th><th>Min Qty</th><th>Status</th></tr></thead>
+                  <tbody id="items-list-body">
+                    <tr><td colspan="8" class="text-center text-muted">No items</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="side-panel">
+              <h3>Add Item</h3>
+              <form id="form-item">
+                <div class="form-group"><label>SKU Code</label><input type="text" class="form-control" id="item-sku" placeholder="SKU-ELV-001"></div>
+                <div class="form-group"><label>Name</label><input type="text" class="form-control" id="item-name" placeholder="Item name"></div>
+                <div class="form-group"><label>UOM</label><select class="form-control" id="item-uom"><option value="PCS">PCS</option><option value="MTR">MTR</option><option value="KG">KG</option></select></div>
+                <div class="form-group"><label>HSN Code</label><input type="text" class="form-control" id="item-hsn" placeholder="84313100"></div>
+                <div class="form-group"><label>Std Cost (₹)</label><input type="number" class="form-control" id="item-cost" value="0"></div>
+                <button type="submit" class="btn btn-primary btn-block">Add Item</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-warehouse-setup-masters" class="sub-tab-content">
+          <div class="grid-2col">
+            <div class="card">
+              <div class="card-header"><h3>Vendors</h3><button class="btn btn-primary btn-sm" onclick="showModal('modal-vendor')">+ Add</button></div>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr><th>Code</th><th>Name</th><th>Contact</th><th>GST</th><th>Rating</th><th>Status</th></tr></thead>
+                  <tbody id="vendor-list-body">
+                    <tr><td colspan="6" class="text-center text-muted">No vendors</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>Customers</h3><button class="btn btn-primary btn-sm" onclick="showModal('modal-customer')">+ Add</button></div>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr><th>Code</th><th>Name</th><th>Project</th><th>Contact</th><th>GST</th><th>Status</th></tr></thead>
+                  <tbody id="customer-list-body">
+                    <tr><td colspan="6" class="text-center text-muted">No customers</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 3D LAYOUT ===== -->
+      <div id="tab-layout" class="tab-content">
+        <div class="split-panel">
+          <div class="layout-canvas">
+            <div class="card-header"><h3>U-Shape 3D Warehouse Layout</h3></div>
+            <canvas id="wms-canvas" width="750" height="420"></canvas>
+          </div>
+          <div class="side-panel" id="layout-details">
+            <h3>Layout Details</h3>
+            <div class="layout-legend">
+              <div class="legend-item"><span class="legend-dot" style="background:#0ea5e9"></span>Dock / Receiving</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#10b981"></span>Storage (Empty)</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Storage (Occupied)</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#8b5cf6"></span>Project Stage</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span>Quarantine</div>
+            </div>
+            <div class="layout-info" id="layout-info">
+              <p class="text-muted">Hover over elements for details</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PROJECTS & BOM ===== -->
+      <div id="tab-projects" class="tab-content">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-sub="project-list" onclick="switchSubTab('projects', 'project-list', this)">Projects</button>
+          <button class="tab-btn" data-sub="bom-view" onclick="switchSubTab('projects', 'bom-view', this)">BOM Viewer</button>
+          <button class="tab-btn" data-sub="stage-track" onclick="switchSubTab('projects', 'stage-track', this)">Stage Tracking</button>
+        </div>
+
+        <div id="sub-projects-project-list" class="sub-tab-content active">
+          <div class="split-panel">
+            <div class="card flex-grow">
+              <div class="card-header"><h3>Active Projects</h3></div>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr><th>Code</th><th>Name</th><th>Customer</th><th>Start</th><th>End</th><th>Completion</th><th>Status</th><th>Action</th></tr></thead>
+                  <tbody id="project-list-body">
+                    <tr><td colspan="8" class="text-center text-muted">No projects</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="side-panel">
+              <h3>Register Project</h3>
+              <form id="form-project">
+                <div class="form-group"><label>Code</label><input type="text" class="form-control" id="proj-code" placeholder="PRJ-ELV-001"></div>
+                <div class="form-group"><label>Name</label><input type="text" class="form-control" id="proj-name" placeholder="Project name"></div>
+                <div class="form-group"><label>Customer</label><select class="form-control" id="proj-customer"></select></div>
+                <div class="form-group"><label>Warehouse</label><select class="form-control" id="proj-wh"></select></div>
+                <button type="submit" class="btn btn-primary btn-block">Create Project</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-projects-bom-view" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header">
+              <h3>Bill of Materials</h3>
+              <button class="btn btn-primary btn-sm" onclick="showModal('modal-bom')">+ Import BOM</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>BOM #</th><th>Project</th><th>Version</th><th>Item</th><th>Stage</th><th>Required</th><th>Allocated</th><th>Picked</th><th>Status</th></tr></thead>
+                <tbody id="bom-list-body">
+                  <tr><td colspan="9" class="text-center text-muted">No BOM data. Import a CSV.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-projects-stage-track" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header"><h3>Stage Completion Tracker</h3></div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Project</th><th>Stage</th><th>Planned Start</th><th>Planned End</th><th>Actual Start</th><th>Actual End</th><th>Completion %</th><th>Status</th></tr></thead>
+                <tbody id="stage-list-body">
+                  <tr><td colspan="8" class="text-center text-muted">No stage data</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PICKING ===== -->
+      <div id="tab-picking" class="tab-content">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-sub="pick-waves" onclick="switchSubTab('picking', 'pick-waves', this)">Pick Waves</button>
+          <button class="tab-btn" data-sub="pick-tasks" onclick="switchSubTab('picking', 'pick-tasks', this)">Task Execution</button>
+        </div>
+
+        <div id="sub-picking-pick-waves" class="sub-tab-content active">
+          <div class="card">
+            <div class="card-header">
+              <h3>Pick Waves</h3>
+              <button class="btn btn-primary btn-sm" onclick="showModal('modal-wave')">+ New Wave</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Wave #</th><th>Type</th><th>Project</th><th>Stage</th><th>Total Lines</th><th>Completed</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="wave-list-body">
+                  <tr><td colspan="8" class="text-center text-muted">No waves</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-picking-pick-tasks" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header"><h3>Pick Tasks (Mobile)</h3></div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Task ID</th><th>Wave</th><th>Item</th><th>Source Bin</th><th>Requested</th><th>Picked</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="pick-tasks-body">
+                  <tr><td colspan="8" class="text-center text-muted">Select a wave to view tasks</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PACKING ===== -->
+      <div id="tab-packing" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Packing &amp; Container Sealing</h3>
+            <button class="btn btn-primary btn-sm" onclick="showModal('modal-package')">+ Create Package</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Package #</th><th>Project</th><th>Stage</th><th>Weight (Kg)</th><th>Dimensions</th><th>Barcode</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="package-list-body">
+                <tr><td colspan="8" class="text-center text-muted">No packages</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DISPATCH ===== -->
+      <div id="tab-dispatch" class="tab-content">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-sub="ship-list" onclick="switchSubTab('dispatch', 'ship-list', this)">Shipments</button>
+          <button class="tab-btn" data-sub="ship-track" onclick="switchSubTab('dispatch', 'ship-track', this)">Tracking</button>
+        </div>
+
+        <div id="sub-dispatch-ship-list" class="sub-tab-content active">
+          <div class="card">
+            <div class="card-header">
+              <h3>Dispatch Shipments</h3>
+              <button class="btn btn-primary btn-sm" onclick="showModal('modal-shipment')">+ New Shipment</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Shipment #</th><th>Customer</th><th>Warehouse</th><th>Transit Mode</th><th>E-Way Bill</th><th>Total Pkg</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="shipment-list-body">
+                  <tr><td colspan="8" class="text-center text-muted">No shipments</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-dispatch-ship-track" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header"><h3>In-Transit Tracking</h3></div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Shipment</th><th>Driver</th><th>Vehicle</th><th>Mobile</th><th>Dispatched</th><th>Expected Delivery</th><th>POD</th><th>Status</th></tr></thead>
+                <tbody id="tracking-body">
+                  <tr><td colspan="8" class="text-center text-muted">No active dispatches</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== QUALITY ===== -->
+      <div id="tab-quality" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Quality Inspections</h3>
+            <button class="btn btn-primary btn-sm" onclick="showModal('modal-inspect')">+ New Inspection</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Inspection #</th><th>Item</th><th>Lot</th><th>Type</th><th>Sample</th><th>Pass</th><th>Fail</th><th>Result</th><th>Inspector</th><th>Action</th></tr></thead>
+              <tbody id="quality-list-body">
+                <tr><td colspan="10" class="text-center text-muted">No inspections</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== RETURNS ===== -->
+      <div id="tab-returns" class="tab-content">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-sub="crn" onclick="switchSubTab('returns', 'crn', this)">Customer Returns</button>
+          <button class="tab-btn" data-sub="vrn" onclick="switchSubTab('returns', 'vrn', this)">Vendor Returns</button>
+        </div>
+
+        <div id="sub-returns-crn" class="sub-tab-content active">
+          <div class="card">
+            <div class="card-header"><h3>Customer Return Notes (CRN)</h3><button class="btn btn-primary btn-sm" onclick="showModal('modal-crn')">+ New CRN</button></div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>CRN #</th><th>Customer</th><th>Shipment</th><th>Reason</th><th>Items</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="crn-list-body">
+                  <tr><td colspan="7" class="text-center text-muted">No customer returns</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="sub-returns-vrn" class="sub-tab-content">
+          <div class="card">
+            <div class="card-header"><h3>Vendor Return Notes (VRN)</h3><button class="btn btn-primary btn-sm" onclick="showModal('modal-vrn')">+ New VRN</button></div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>VRN #</th><th>Vendor</th><th>GRN Ref</th><th>Reason</th><th>Items</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="vrn-list-body">
+                  <tr><td colspan="7" class="text-center text-muted">No vendor returns</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== REPORTS ===== -->
+      <div id="tab-reports" class="tab-content">
+        <div class="report-grid">
+          <div class="report-card" onclick="loadReport('stock-summary')">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+            <span>Stock Summary</span>
+          </div>
+          <div class="report-card" onclick="loadReport('stock-ledger')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Stock Ledger</span>
+          </div>
+          <div class="report-card" onclick="loadReport('aging')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Aging Report</span>
+          </div>
+          <div class="report-card" onclick="loadReport('abc-analysis')">
+            <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+            <span>ABC Analysis</span>
+          </div>
+          <div class="report-card" onclick="loadReport('vendor-perf')">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+            <span>Vendor Performance</span>
+          </div>
+          <div class="report-card" onclick="loadReport('pick-efficiency')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+            <span>Pick Efficiency</span>
+          </div>
+          <div class="report-card" onclick="loadReport('project-consumption')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+            <span>Project Consumption</span>
+          </div>
+          <div class="report-card" onclick="loadReport('audit-trail')">
+            <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Audit Trail</span>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <div class="card-header"><h3 id="report-title">Report Viewer</h3></div>
+          <div class="table-wrapper">
+            <table>
+              <thead id="report-thead"><tr><th>Select a report</th></tr></thead>
+              <tbody id="report-tbody">
+                <tr><td class="text-center text-muted">Click a report card above to view data</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ====== MODALS ====== -->
+
+  <!-- PR Modal -->
+  <div id="modal-pr" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>New Purchase Requisition</h3><button class="modal-close" onclick="closeModal('modal-pr')">&times;</button></div>
+      <form id="form-pr">
+        <div class="form-group"><label>Item</label><select class="form-control" id="pr-item"></select></div>
+        <div class="form-group"><label>Required Qty</label><input type="number" class="form-control" id="pr-qty" value="10"></div>
+        <div class="form-group"><label>Priority</label><select class="form-control" id="pr-priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+        <div class="form-group"><label>Required By</label><input type="date" class="form-control" id="pr-date"></div>
+        <div class="form-group"><label>Justification</label><textarea class="form-control" id="pr-just" rows="2" placeholder="Reason for requisition"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block">Submit PR</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PO Modal -->
+  <div id="modal-po" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Create Purchase Order</h3><button class="modal-close" onclick="closeModal('modal-po')">&times;</button></div>
+      <form id="form-po">
+        <div class="form-group"><label>Vendor</label><select class="form-control" id="po-vendor"></select></div>
+        <div class="form-group"><label>Warehouse</label><select class="form-control" id="po-wh"></select></div>
+        <div class="form-group"><label>Item</label><select class="form-control" id="po-item"></select></div>
+        <div class="form-group"><label>Ordered Qty</label><input type="number" class="form-control" id="po-qty" value="10"></div>
+        <div class="form-group"><label>Unit Price (₹)</label><input type="number" class="form-control" id="po-price" value="250"></div>
+        <button type="submit" class="btn btn-primary btn-block">Issue PO</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- GRN Modal -->
+  <div id="modal-grn" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Log Goods Receipt Note</h3><button class="modal-close" onclick="closeModal('modal-grn')">&times;</button></div>
+      <form id="form-grn">
+        <div class="form-group"><label>PO Reference</label><select class="form-control" id="grn-po"></select></div>
+        <div class="form-group"><label>Invoice Number</label><input type="text" class="form-control" id="grn-invoice" placeholder="INV-001"></div>
+        <div class="form-group"><label>Vehicle Number</label><input type="text" class="form-control" id="grn-vehicle" placeholder="MH-12-AB-1234"></div>
+        <div class="form-group"><label>Received Qty</label><input type="number" class="form-control" id="grn-qty" value="10"></div>
+        <div class="form-group"><label>Lot Number</label><input type="text" class="form-control" id="grn-lot" placeholder="LOT-2026-A"></div>
+        <button type="submit" class="btn btn-primary btn-block">Generate GRN</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Wave Modal -->
+  <div id="modal-wave" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Create Pick Wave</h3><button class="modal-close" onclick="closeModal('modal-wave')">&times;</button></div>
+      <form id="form-wave">
+        <div class="form-group"><label>Wave Type</label><select class="form-control" id="wave-type"><option value="Project">Project Pick</option><option value="Spares">Spares Picking</option></select></div>
+        <div class="form-group"><label>Project</label><select class="form-control" id="wave-project"></select></div>
+        <div class="form-group"><label>Stage</label><select class="form-control" id="wave-stage"><option value="1">Stage 1 - Mechanical</option><option value="2T">Stage 2T - Electrical</option><option value="3">Stage 3 - Cabin Fitting</option><option value="4">Stage 4 - Integrated Test</option></select></div>
+        <button type="submit" class="btn btn-primary btn-block">Release Wave</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Package Modal -->
+  <div id="modal-package" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Create Package</h3><button class="modal-close" onclick="closeModal('modal-package')">&times;</button></div>
+      <form id="form-package">
+        <div class="form-group"><label>Project</label><select class="form-control" id="pkg-project"></select></div>
+        <div class="form-group"><label>Stage</label><select class="form-control" id="pkg-stage"><option value="1">Stage 1</option><option value="2T">Stage 2T</option><option value="3">Stage 3</option><option value="4">Stage 4</option></select></div>
+        <div class="form-group"><label>Item</label><select class="form-control" id="pkg-item"></select></div>
+        <div class="form-group"><label>Quantity</label><input type="number" class="form-control" id="pkg-qty" value="5"></div>
+        <div class="grid-2col">
+          <div class="form-group"><label>Weight (Kg)</label><input type="number" class="form-control" id="pkg-weight" value="25"></div>
+          <div class="form-group"><label>Length (Cm)</label><input type="number" class="form-control" id="pkg-length" value="100"></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create Package</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Shipment Modal -->
+  <div id="modal-shipment" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>New Shipment</h3><button class="modal-close" onclick="closeModal('modal-shipment')">&times;</button></div>
+      <form id="form-shipment">
+        <div class="form-group"><label>Customer</label><select class="form-control" id="ship-customer"></select></div>
+        <div class="form-group"><label>Package</label><select class="form-control" id="ship-package"></select></div>
+        <div class="form-group"><label>Warehouse</label><select class="form-control" id="ship-wh"></select></div>
+        <div class="form-group"><label>Delivery Address</label><input type="text" class="form-control" id="ship-address" placeholder="Site address"></div>
+        <div class="form-group"><label>Transport Mode</label><select class="form-control" id="ship-mode"><option>Road</option><option>Rail</option><option>Air</option><option>Courier</option></select></div>
+        <div class="form-group"><label>E-Way Bill</label><input type="text" class="form-control" id="ship-eway" placeholder="EWB-2026-001"></div>
+        <button type="submit" class="btn btn-primary btn-block">Register Shipment</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Stock Adjust Modal -->
+  <div id="modal-adjust" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Adjust Stock</h3><button class="modal-close" onclick="closeModal('modal-adjust')">&times;</button></div>
+      <form id="form-adjust">
+        <div class="form-group"><label>Item</label><select class="form-control" id="adj-item"></select></div>
+        <div class="form-group"><label>Bin</label><select class="form-control" id="adj-bin"></select></div>
+        <div class="form-group"><label>Adjustment Qty (+/-)</label><input type="number" class="form-control" id="adj-qty" value="0"></div>
+        <div class="form-group"><label>Reason</label><textarea class="form-control" id="adj-reason" rows="2" placeholder="Adjustment reason"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block">Apply Adjustment</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Move Stock Modal -->
+  <div id="modal-move" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Bin-to-Bin Movement</h3><button class="modal-close" onclick="closeModal('modal-move')">&times;</button></div>
+      <form id="form-move">
+        <div class="form-group"><label>Item</label><select class="form-control" id="move-item"></select></div>
+        <div class="form-group"><label>Source Bin</label><select class="form-control" id="move-source"></select></div>
+        <div class="form-group"><label>Destination Bin</label><select class="form-control" id="move-dest"></select></div>
+        <div class="form-group"><label>Qty</label><input type="number" class="form-control" id="move-qty" value="1"></div>
+        <button type="submit" class="btn btn-primary btn-block">Move Stock</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Cycle Count Modal -->
+  <div id="modal-cycle" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>New Cycle Count</h3><button class="modal-close" onclick="closeModal('modal-cycle')">&times;</button></div>
+      <form id="form-cycle">
+        <div class="form-group"><label>Warehouse</label><select class="form-control" id="cycle-wh"></select></div>
+        <div class="form-group"><label>Count Type</label><select class="form-control" id="cycle-type"><option>Full</option><option>Zone</option><option>ABC-Class</option></select></div>
+        <div class="form-group"><label>Zone (optional)</label><select class="form-control" id="cycle-zone"></select></div>
+        <button type="submit" class="btn btn-primary btn-block">Start Count</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Transfer Modal -->
+  <div id="modal-transfer" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Stock Transfer</h3><button class="modal-close" onclick="closeModal('modal-transfer')">&times;</button></div>
+      <form id="form-transfer">
+        <div class="form-group"><label>From Warehouse</label><select class="form-control" id="tr-from"></select></div>
+        <div class="form-group"><label>To Warehouse</label><select class="form-control" id="tr-to"></select></div>
+        <div class="form-group"><label>Item</label><select class="form-control" id="tr-item"></select></div>
+        <div class="form-group"><label>Qty</label><input type="number" class="form-control" id="tr-qty" value="10"></div>
+        <button type="submit" class="btn btn-primary btn-block">Create Transfer</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- BOM Import Modal -->
+  <div id="modal-bom" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Import BOM</h3><button class="modal-close" onclick="closeModal('modal-bom')">&times;</button></div>
+      <form id="form-bom">
+        <div class="form-group"><label>Project</label><select class="form-control" id="bom-project"></select></div>
+        <div class="form-group"><label>CSV File</label><input type="file" class="form-control" id="bom-file" accept=".csv,.xlsx"></div>
+        <p class="text-muted" style="font-size:0.8rem">CSV format: SKUCode, StageCode, Qty, Description</p>
+        <button type="submit" class="btn btn-primary btn-block">Upload BOM</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Vendor Modal -->
+  <div id="modal-vendor" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Add Vendor</h3><button class="modal-close" onclick="closeModal('modal-vendor')">&times;</button></div>
+      <form id="form-vendor">
+        <div class="form-group"><label>Code</label><input type="text" class="form-control" id="v-code" placeholder="VND-001"></div>
+        <div class="form-group"><label>Name</label><input type="text" class="form-control" id="v-name" placeholder="Vendor name"></div>
+        <div class="form-group"><label>Contact Person</label><input type="text" class="form-control" id="v-contact" placeholder="Name"></div>
+        <div class="form-group"><label>Mobile</label><input type="text" class="form-control" id="v-mobile" placeholder="9876543210"></div>
+        <div class="form-group"><label>Email</label><input type="email" class="form-control" id="v-email" placeholder="vendor@example.com"></div>
+        <div class="form-group"><label>GST</label><input type="text" class="form-control" id="v-gst" placeholder="27AAACU1202J1ZO"></div>
+        <button type="submit" class="btn btn-primary btn-block">Add Vendor</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Customer Modal -->
+  <div id="modal-customer" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Add Customer</h3><button class="modal-close" onclick="closeModal('modal-customer')">&times;</button></div>
+      <form id="form-customer">
+        <div class="form-group"><label>Code</label><input type="text" class="form-control" id="c-code" placeholder="CST-001"></div>
+        <div class="form-group"><label>Name</label><input type="text" class="form-control" id="c-name" placeholder="Customer name"></div>
+        <div class="form-group"><label>Contact</label><input type="text" class="form-control" id="c-contact" placeholder="Contact person"></div>
+        <div class="form-group"><label>Mobile</label><input type="text" class="form-control" id="c-mobile" placeholder="9876543210"></div>
+        <div class="form-group"><label>GST</label><input type="text" class="form-control" id="c-gst" placeholder="GST number"></div>
+        <div class="form-group"><label>Site Address</label><textarea class="form-control" id="c-address" rows="2" placeholder="Delivery site"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block">Add Customer</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Inspection Modal -->
+  <div id="modal-inspect" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>New Inspection</h3><button class="modal-close" onclick="closeModal('modal-inspect')">&times;</button></div>
+      <form id="form-inspect">
+        <div class="form-group"><label>GRN Line</label><select class="form-control" id="ins-grn"></select></div>
+        <div class="form-group"><label>Inspection Type</label><select class="form-control" id="ins-type"><option>Visual</option><option>Functional</option><option>Dimensional</option></select></div>
+        <div class="form-group"><label>Sample Qty</label><input type="number" class="form-control" id="ins-sample" value="5"></div>
+        <div class="grid-2col">
+          <div class="form-group"><label>Pass Qty</label><input type="number" class="form-control" id="ins-pass" value="5"></div>
+          <div class="form-group"><label>Fail Qty</label><input type="number" class="form-control" id="ins-fail" value="0"></div>
+        </div>
+        <div class="form-group"><label>Notes</label><textarea class="form-control" id="ins-notes" rows="2"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block">Submit Inspection</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- CRN Modal -->
+  <div id="modal-crn" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Customer Return</h3><button class="modal-close" onclick="closeModal('modal-crn')">&times;</button></div>
+      <form id="form-crn">
+        <div class="form-group"><label>Customer</label><select class="form-control" id="crn-customer"></select></div>
+        <div class="form-group"><label>Item</label><select class="form-control" id="crn-item"></select></div>
+        <div class="form-group"><label>Return Qty</label><input type="number" class="form-control" id="crn-qty" value="1"></div>
+        <div class="form-group"><label>Reason</label><select class="form-control" id="crn-reason"><option>Damaged</option><option>Wrong Item</option><option>Excess</option><option>Customer Cancellation</option></select></div>
+        <button type="submit" class="btn btn-primary btn-block">Create CRN</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- VRN Modal -->
+  <div id="modal-vrn" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Vendor Return</h3><button class="modal-close" onclick="closeModal('modal-vrn')">&times;</button></div>
+      <form id="form-vrn">
+        <div class="form-group"><label>Vendor</label><select class="form-control" id="vrn-vendor"></select></div>
+        <div class="form-group"><label>Item</label><select class="form-control" id="vrn-item"></select></div>
+        <div class="form-group"><label>Return Qty</label><input type="number" class="form-control" id="vrn-qty" value="1"></div>
+        <div class="form-group"><label>Reason</label><select class="form-control" id="vrn-reason"><option>Defective</option><option>Over-delivered</option><option>Wrong Item</option></select></div>
+        <button type="submit" class="btn btn-primary btn-block">Create VRN</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

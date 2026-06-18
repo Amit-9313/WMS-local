@@ -1,0 +1,6 @@
+.section-header { margin-bottom: 18px; }
+.section-header h2 { font-size: 1.2rem; font-weight: 600; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.admin-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 22px; }
+.admin-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+.text-muted { color: var(--text-muted); font-size: 0.82rem; }

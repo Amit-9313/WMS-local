@@ -1,0 +1,70 @@
+<div class="page-container">
+
+  <div class="page-header">
+
+    <h2>View Warehouse</h2>
+
+    <button class="btn btn-secondary"
+            (click)="back()">
+
+      Back
+
+    </button>
+
+  </div>
+
+  <div class="details-card" *ngIf="warehouse">
+
+    <div class="row">
+      <label>Warehouse Code</label>
+      <span>{{ warehouse.warehouseCode }}</span>
+    </div>
+
+    <div class="row">
+      <label>Warehouse Name</label>
+      <span>{{ warehouse.warehouseName }}</span>
+    </div>
+
+    <div class="row">
+      <label>Branch</label>
+      <span>{{ warehouse.branch }}</span>
+    </div>
+
+    <div class="row">
+      <label>Address</label>
+      <span>{{ warehouse.address }}</span>
+    </div>
+
+    <div class="row">
+      <label>Latitude</label>
+      <span>{{ warehouse.latitude }}</span>
+    </div>
+
+    <div class="row">
+      <label>Longitude</label>
+      <span>{{ warehouse.longitude }}</span>
+    </div>
+
+    <div class="row">
+      <label>Timezone</label>
+      <span>{{ warehouse.timezone }}</span>
+    </div>
+
+    <div class="row">
+      <label>Dock Zone</label>
+      <span>{{ warehouse.defaultDockZone }}</span>
+    </div>
+
+    <div class="row">
+      <label>Total Area</label>
+      <span>{{ warehouse.totalAreaSqFt }}</span>
+    </div>
+
+    <div class="row">
+      <label>Status</label>
+      <span>{{ warehouse.status }}</span>
+    </div>
+
+  </div>
+
+</div>

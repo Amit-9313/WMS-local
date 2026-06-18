@@ -1,0 +1,418 @@
+<div class="section-header">
+</div>
+
+<!-- KPI CARDS -->
+
+<div class="kpi-grid">
+
+  <div class="kpi-card">
+    <span>Staging Tasks</span>
+    <h3>{{stagingItems.length}}</h3>
+  </div>
+
+  <div class="kpi-card">
+    <span>Open Packages</span>
+    <h3>{{packages.length}}</h3>
+  </div>
+
+  <div class="kpi-card">
+    <span>Sealed Packages</span>
+    <h3>{{sealedPackagesCount}}</h3>
+  </div>
+
+
+  <div class="kpi-card">
+    <span>Ready Dispatch</span>
+    <h3>{{readyDispatchCount}}</h3>
+  </div>
+
+</div>
+
+<!-- TABS -->
+
+<div class="tab-nav">
+
+  <button class="tab-btn"
+          [class.active]="activeTab==='staging'"
+          (click)="activeTab='staging'">
+
+    Staging Area
+
+  </button>
+
+  <button class="tab-btn"
+          [class.active]="activeTab==='packages'"
+          (click)="activeTab='packages'">
+
+    Packages
+
+  </button>
+
+  <button class="tab-btn"
+          [class.active]="activeTab==='session'"
+          (click)="activeTab='session'">
+
+    Packing Session
+
+  </button>
+
+</div>
+
+<!-- ========================================= -->
+<!-- STAGING AREA -->
+<!-- ========================================= -->
+
+<div *ngIf="activeTab==='staging'">
+
+  <div class="staging-grid">
+
+    <div class="stage-card"
+         *ngFor="let s of stagingItems">
+
+      <div class="stage-header">
+
+        <h4>{{s.project}}</h4>
+
+        <span class="badge badge-primary">
+
+          {{s.stage}}
+
+        </span>
+
+      </div>
+
+      <div class="stage-body">
+
+        <div class="stage-row">
+          <span>Pick Task</span>
+          <strong>{{s.pickTask}}</strong>
+        </div>
+
+        <div class="stage-row">
+          <span>Items</span>
+          <strong>{{s.items}}</strong>
+        </div>
+
+        <div class="stage-row">
+          <span>Quantity</span>
+          <strong>{{s.qty}}</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- PACKAGE LIST -->
+<!-- ========================================= -->
+
+<div *ngIf="activeTab==='packages'">
+
+  <div class="table-wrapper">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Package #</th>
+          <th>Project</th>
+          <th>Stage</th>
+          <th>Weight</th>
+          <th>Dimensions</th>
+          <th>Declared Value</th>
+          <th>Status</th>
+          <th>Label</th>
+          <th>Action</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let p of packages">
+
+          <td>{{p.packageNumber}}</td>
+
+          <td>
+            {{p.project?.projectName || '-'}}
+          </td>
+
+          <td>{{p.stageCode}}</td>
+
+          <td>
+            {{p.weightKg}} kg
+          </td>
+
+          <td>
+            {{p.lengthCm || 0}}
+            ×
+            {{p.widthCm || 0}}
+            ×
+            {{p.heightCm || 0}}
+          </td>
+
+          <td>
+            ₹{{p.declaredValue || 0}}
+          </td>
+
+          <td>
+
+            <span class="badge badge-success"
+                  *ngIf="p.status==='Sealed'">
+
+              Sealed
+
+            </span>
+
+            <span class="badge badge-warning"
+                  *ngIf="p.status==='Open'">
+
+              Open
+
+            </span>
+
+            <span class="badge badge-primary"
+                  *ngIf="p.status==='Dispatched'">
+
+              Dispatched
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <button class="btn btn-sm btn-secondary"
+                    (click)="printLabel(p)">
+
+              Print
+
+            </button>
+
+          </td>
+
+          <td>
+
+            <button *ngIf="p.status==='Open'"
+                    class="btn btn-sm btn-primary"
+                    (click)="sealPackage(p)">
+
+              Seal
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- PACKING SESSION -->
+<!-- ========================================= -->
+
+<div *ngIf="activeTab==='session'">
+
+  <div class="session-card">
+
+    <h3>Active Packing Session</h3>
+
+    <div class="form-group">
+
+      <label>Scan Item Barcode</label>
+
+      <input class="form-control"
+             [(ngModel)]="scanCode"
+             placeholder="Scan item barcode">
+
+    </div>
+
+    <button class="btn btn-primary"
+            (click)="addScan()">
+
+      Add Item
+
+    </button>
+
+    <div class="scan-list">
+
+      <div *ngFor="let item of scannedItems"
+           class="scan-item">
+
+        ✓ {{item}}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- CREATE PACKAGE -->
+<!-- ========================================= -->
+
+<div class="modal-overlay"
+     *ngIf="showCreateForm"
+     (click)="showCreateForm=false">
+
+  <div class="modal"
+       (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+
+      <h3>Create Package</h3>
+
+      <button class="btn btn-sm btn-secondary"
+              (click)="showCreateForm=false">
+
+        ✕
+
+      </button>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Project</label>
+
+      <select class="form-control"
+              [(ngModel)]="pkgForm.projectId">
+
+        <option value="">
+          Select Project
+        </option>
+
+        <option *ngFor="let p of projects"
+                [value]="p.projectId">
+
+          {{p.projectName}}
+
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Stage Code</label>
+
+      <input class="form-control"
+             [(ngModel)]="pkgForm.stageCode">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Pick Task</label>
+
+      <select class="form-control"
+              [(ngModel)]="pkgForm.pickTask">
+
+        <option>
+          PT-2026-458
+        </option>
+
+        <option>
+          PT-2026-459
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="grid-2col">
+
+      <div class="form-group">
+
+        <label>Weight (kg)</label>
+
+        <input type="number"
+               class="form-control"
+               [(ngModel)]="pkgForm.weightKg">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Declared Value</label>
+
+        <input type="number"
+               class="form-control"
+               [(ngModel)]="pkgForm.declaredValue">
+
+      </div>
+
+    </div>
+
+    <div class="grid-2col">
+
+      <div class="form-group">
+
+        <label>Length (cm)</label>
+
+        <input type="number"
+               class="form-control"
+               [(ngModel)]="pkgForm.lengthCm">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Width (cm)</label>
+
+        <input type="number"
+               class="form-control"
+               [(ngModel)]="pkgForm.widthCm">
+
+      </div>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Height (cm)</label>
+
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="pkgForm.heightCm">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Label Template</label>
+
+      <select class="form-control"
+              [(ngModel)]="pkgForm.labelTemplate">
+
+        <option>Standard</option>
+        <option>Zebra</option>
+
+      </select>
+
+    </div>
+
+    <button class="btn btn-primary btn-block"
+            (click)="createPackage()">
+
+      Create Package
+
+    </button>
+
+  </div>
+
+</div>

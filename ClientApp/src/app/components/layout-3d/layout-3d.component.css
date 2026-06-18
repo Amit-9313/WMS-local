@@ -1,0 +1,14 @@
+.section-header { margin-bottom: 18px; }
+.section-header h2 { font-size: 1.2rem; font-weight: 600; }
+.layout-container { display: flex; gap: 20px; }
+.canvas-wrapper { position: relative; flex-shrink: 0; }
+canvas { border: 1px solid var(--border-color); border-radius: var(--radius); background: #f5f7fa; display: block; cursor: pointer; }
+.tooltip { position: absolute; background: rgba(0,0,0,0.85); color: #fff; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; pointer-events: none; white-space: nowrap; z-index: 10; }
+.legend-panel { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 22px; width: 200px; min-width: 200px; }
+.legend-panel h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 14px; }
+.legend-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 0.82rem; }
+.legend-color { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.zone-info { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color); }
+.zone-info strong { font-size: 0.85rem; }
+.text-muted { color: var(--text-muted); font-size: 0.75rem; margin-top: 4px; }
+@media (max-width: 1024px) { .layout-container { flex-direction: column; } .legend-panel { width: 100%; } }

@@ -1,0 +1,150 @@
+<div class="page-container">
+
+
+
+
+
+  <!-- STATS -->
+
+  <div class="stats-grid">
+
+    <div class="stat-card warehouses">
+      <div class="stat-value">{{ totalWarehouses }}</div>
+      <div class="stat-label">Total Warehouses</div>
+    </div>
+
+    <div class="stat-card active">
+      <div class="stat-value">{{ activeWarehouseCount }}</div>
+      <div class="stat-label">Active Warehouses</div>
+    </div>
+
+    <div class="stat-card inactive">
+      <div class="stat-value">{{ inactiveWarehouseCount }}</div>
+      <div class="stat-label">Inactive Warehouses</div>
+    </div>
+
+    <div class="stat-card area">
+      <div class="stat-value">{{ totalArea }}</div>
+      <div class="stat-label">Total Area (SQFT)</div>
+    </div>
+
+  </div>
+
+  <!-- SEARCH -->
+
+  <div class="toolbar">
+
+    <input type="text"
+           class="search-box"
+           placeholder="Search Warehouse..."
+           [(ngModel)]="searchText">
+
+    <div class="toolbar-actions">
+
+      <button class="btn btn-secondary">
+        Filter
+      </button>
+
+      <button class="btn btn-secondary">
+        Export
+      </button>
+        
+      <button class="btn btn-primary"
+              routerLink="/inventory/create-warehouse">
+
+        + Create Warehouse
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+
+  <div class="table-card">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Code</th>
+          <th>Warehouse Name</th>
+          <th>Branch</th>
+          <th>Area (SQFT)</th>
+          <th>Dock Zone</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let warehouse of filteredWarehouses">
+
+          <td>{{ warehouse.warehouseCode }}</td>
+
+          <td>
+            <div class="warehouse-name">
+              {{ warehouse.warehouseName }}
+            </div>
+          </td>
+
+          <td>{{ warehouse.branch }}</td>
+
+          <td>{{ warehouse.totalAreaSqFt }}</td>
+
+          <td>{{ warehouse.defaultDockZone }}</td>
+
+          <td>
+
+            <span class="badge"
+                  [ngClass]="{
+                'badge-success': warehouse.status === 'Active',
+                'badge-danger': warehouse.status === 'Inactive'
+              }">
+
+              {{ warehouse.status }}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <div class="action-buttons">
+
+              <button class="action-btn view-btn"
+                      (click)="viewWarehouse(warehouse.id)">
+                View
+              </button>
+
+              <button class="action-btn edit-btn"
+                      (click)="editWarehouse(warehouse.id)">
+
+                Edit
+
+              </button>
+
+              <button class="action-btn delete-btn"
+                      (click)="deleteWarehouse(warehouse.id)">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

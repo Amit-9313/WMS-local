@@ -1,0 +1,144 @@
+
+
+<div class="tab-nav">
+
+  <button
+    class="tab-btn"
+    [class.active]="activeTab==='pr'"
+    (click)="activeTab='pr'">
+    Purchase Requisitions
+  </button>
+
+  <button
+    class="tab-btn"
+    [class.active]="activeTab==='po'"
+    (click)="activeTab='po'">
+    Purchase Orders
+  </button>
+
+  <button
+    class="tab-btn"
+    [class.active]="activeTab==='grn'"
+    (click)="activeTab='grn'">
+    Receiving / GRN
+  </button>
+
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='pr'">
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>PR#</th><th>Priority</th><th>Required By</th><th>Status</th><th>Approval</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let p of prs"><td>{{ p.prNumber }}</td><td><span class="badge" [class.badge-warning]="p.priority==='High'" [class.badge-primary]="p.priority==='Medium'" [class.badge-success]="p.priority==='Low'">{{ p.priority }}</span></td><td>{{ p.requiredByDate | date:'mediumDate' }}</td><td><span class="badge" [class.badge-success]="p.status==='Approved'" [class.badge-warning]="p.status==='Pending'" [class.badge-danger]="p.status==='Rejected'">{{ p.status }}</span></td><td>{{ p.approvalLevel }}</td></tr>
+        <tr *ngIf="!prs.length"><td colspan="5" class="text-center text-muted">No purchase requisitions found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='po'">
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>PO#</th><th>Vendor</th><th>Warehouse</th><th>Date</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let p of pos"><td>{{ p.poNumber }}</td><td>{{ p.vendor?.vendorName || '-' }}</td><td>{{ p.warehouse?.warehouseName || '-' }}</td><td>{{ p.poDate | date:'mediumDate' }}</td><td>{{ p.totalAmount | currency:'INR' }}</td><td><span class="badge" [class.badge-success]="p.status==='Received'" [class.badge-primary]="p.status==='Open'" [class.badge-warning]="p.status==='Pending'">{{ p.status }}</span></td><td><button class="btn btn-sm btn-secondary">View</button></td></tr>
+        <tr *ngIf="!pos.length"><td colspan="7" class="text-center text-muted">No purchase orders found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tab-content" *ngIf="activeTab==='grn'">
+
+  <div class="kpi-grid">
+
+    <div class="kpi-card">
+      <span>GRNs Today</span>
+      <h3>3</h3>
+      <small>Awaiting inspection</small>
+    </div>
+
+    <div class="kpi-card">
+      <span>QC Pending</span>
+      <h3>8</h3>
+      <small>Items on hold</small>
+    </div>
+
+    <div class="kpi-card">
+      <span>Rejection Rate</span>
+      <h3>2.1%</h3>
+      <small>Last 30 days</small>
+    </div>
+
+  </div>
+
+  <div class="table-wrapper">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>GRN #</th>
+          <th>PO #</th>
+          <th>Vendor</th>
+          <th>Receipt Type</th>
+          <th>Invoice</th>
+          <th>Vehicle</th>
+          <th>Received By</th>
+          <th>QC Status</th>
+          <th>Status</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let g of grns">
+
+          <td>{{ g.grnNumber }}</td>
+          <td>{{ g.poNumber }}</td>
+          <td>{{ g.vendor }}</td>
+          <td>{{ g.receiptType }}</td>
+          <td>{{ g.invoiceNumber }}</td>
+          <td>{{ g.vehicleNumber }}</td>
+          <td>{{ g.receivedBy }}</td>
+
+          <td>
+            <span class="badge"
+                  [class.badge-success]="g.qcStatus==='Pass'"
+                  [class.badge-danger]="g.qcStatus==='Hold'"
+                  [class.badge-warning]="g.qcStatus==='Pending'">
+
+              {{ g.qcStatus }}
+
+            </span>
+          </td>
+
+          <td>
+            <span class="badge badge-primary">
+              {{ g.status }}
+            </span>
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<div class="modal-overlay" *ngIf="showPoForm" (click)="showPoForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>Create Purchase Order</h3><button class="btn btn-sm btn-secondary" (click)="showPoForm=false">✕</button></div>
+    <div class="form-group"><label>Vendor</label><select class="form-control" [(ngModel)]="poForm.vendorId" (change)="onVendorChange()"><option value="">Select Vendor</option><option *ngFor="let v of vendors" [value]="v.vendorId">{{ v.vendorName }}</option></select></div>
+    <div class="form-group"><label>Warehouse</label><select class="form-control" [(ngModel)]="poForm.warehouseId"><option value="">Select Warehouse</option><option *ngFor="let w of warehouses" [value]="w.warehouseId">{{ w.warehouseName }}</option></select></div>
+    <div class="grid-2col"><div class="form-group"><label>Item</label><select class="form-control" [(ngModel)]="poForm.selectedItemId"><option value="">Select Item</option><option *ngFor="let i of items" [value]="i.itemId">{{ i.skuCode }} - {{ i.itemName }}</option></select></div><div class="form-group"><label>Qty</label><input type="number" class="form-control" [(ngModel)]="poForm.lineQty" /></div></div>
+    <div class="form-group"><label>Unit Price</label><input type="number" class="form-control" [(ngModel)]="poForm.linePrice" /></div>
+    <button class="btn btn-primary btn-block" (click)="createPO()">Create PO</button>
+  </div>
+</div>

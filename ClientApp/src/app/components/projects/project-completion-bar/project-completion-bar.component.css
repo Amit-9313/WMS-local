@@ -1,0 +1,16 @@
+.progress {
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: #3b82f6;
+}
+
+.percent {
+  margin-top: 6px;
+  font-size: .75rem;
+}

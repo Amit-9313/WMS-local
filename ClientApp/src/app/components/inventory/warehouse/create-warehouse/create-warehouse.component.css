@@ -1,0 +1,63 @@
+.create-page {
+  padding: 24px;
+}
+
+.page-header {
+  margin-bottom: 20px;
+}
+
+  .page-header h2 {
+    margin: 0;
+    font-size: 32px;
+  }
+
+.form-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+  .form-group label {
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+.form-control {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+#warehouseMap {
+  height: 350px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+}
+
+.footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.form-control[readonly] {
+  background: #f9fafb;
+  cursor: not-allowed;
+}

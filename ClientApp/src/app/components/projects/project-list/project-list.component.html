@@ -1,0 +1,33 @@
+<div class="project-grid">
+
+  <div class="project-card"
+       *ngFor="let p of projects">
+
+    <div class="header">
+
+      <div>
+
+        <h3>{{p.projectCode}}</h3>
+
+        <h4>{{p.projectName}}</h4>
+
+        <p>{{p.customer?.customerName}}</p>
+
+      </div>
+
+      <app-project-status-badge [status]="p.status">
+      </app-project-status-badge>
+
+    </div>
+
+    <app-project-completion-bar [completion]="p.completionPct || 0">
+    </app-project-completion-bar>
+
+    <button class="btn"
+            (click)="viewProject.emit(p)">
+      View BOM
+    </button>
+
+  </div>
+
+</div>

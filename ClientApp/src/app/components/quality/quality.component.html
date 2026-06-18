@@ -1,0 +1,34 @@
+<div class="section-header">
+  <h2>Quality Inspection</h2>
+  <button class="btn btn-primary" (click)="showForm=true">+ New Inspection</button>
+</div>
+<div class="table-wrapper">
+  <table>
+    <thead><tr><th>Inspection#</th><th>GRN Line</th><th>Item</th><th>Lot#</th><th>Type</th><th>Sample</th><th>Pass</th><th>Fail</th><th>Result</th><th>Inspector</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let ins of inspections">
+        <td>{{ ins.inspectionNumber }}</td>
+        <td>{{ ins.grnLineId?.slice(0,8) }}</td>
+        <td>{{ ins.item?.skuCode || '-' }}</td>
+        <td>{{ ins.lotNumber || '-' }}</td>
+        <td><span class="badge badge-primary">{{ ins.inspectionType }}</span></td>
+        <td>{{ ins.sampleQty }}</td>
+        <td>{{ ins.passQty }}</td>
+        <td>{{ ins.failQty }}</td>
+        <td><span class="badge" [class.badge-success]="ins.result==='Pass'" [class.badge-danger]="ins.result==='Fail'" [class.badge-warning]="ins.result==='Pending'">{{ ins.result }}</span></td>
+        <td>{{ ins.inspector || '-' }}</td>
+      </tr>
+      <tr *ngIf="!inspections.length"><td colspan="10" class="text-center text-muted">No inspections found.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal-overlay" *ngIf="showForm" (click)="showForm=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>New Inspection</h3><button class="btn btn-sm btn-secondary" (click)="showForm=false">✕</button></div>
+    <div class="form-group"><label>Item</label><select class="form-control" [(ngModel)]="form.itemId"><option value="">Select</option><option *ngFor="let i of items" [value]="i.itemId">{{ i.skuCode }} - {{ i.itemName }}</option></select></div>
+    <div class="grid-2col"><div class="form-group"><label>Inspection Type</label><select class="form-control" [(ngModel)]="form.inspectionType"><option>Incoming</option><option>In Process</option><option>Final</option></select></div><div class="form-group"><label>Sample Qty</label><input type="number" class="form-control" [(ngModel)]="form.sampleQty" /></div></div>
+    <div class="grid-2col"><div class="form-group"><label>Pass Qty</label><input type="number" class="form-control" [(ngModel)]="form.passQty" /></div><div class="form-group"><label>Fail Qty</label><input type="number" class="form-control" [(ngModel)]="form.failQty" /></div></div>
+    <button class="btn btn-primary btn-block" (click)="createInspection()">Submit Inspection</button>
+  </div>
+</div>

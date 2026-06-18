@@ -1,0 +1,30 @@
+<table>
+
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Stage</th>
+      <th>Required</th>
+      <th>Allocated</th>
+      <th>Picked</th>
+      <th>Packed</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr *ngFor="let line of lines"
+        [class.short]="line.requiredQty > line.allocatedQty">
+
+      <td>{{line.item?.itemName}}</td>
+      <td>{{line.stageCode}}</td>
+      <td>{{line.requiredQty}}</td>
+      <td>{{line.allocatedQty}}</td>
+      <td>{{line.pickedQty}}</td>
+      <td>{{line.packedQty}}</td>
+
+    </tr>
+
+  </tbody>
+
+</table>

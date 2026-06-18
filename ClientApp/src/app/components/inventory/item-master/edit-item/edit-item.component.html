@@ -1,0 +1,173 @@
+<div class="page">
+
+  <div class="page-header">
+
+    <div>
+      <h2>Edit Item</h2>
+      <p>Update Asset Details</p>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>Model Name</label>
+
+        <input type="text"
+               [(ngModel)]="item.modelName">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Model Number</label>
+
+        <input type="text"
+               [(ngModel)]="item.modelNumber">
+
+      </div>
+
+      <div class="serial-wrapper">
+
+        <div class="form-group">
+
+          <label>Serial Number</label>
+
+          <input type="text"
+                 [(ngModel)]="item.serialNumber"
+                 (input)="generateQrCode()">
+
+        </div>
+
+        <div *ngIf="qrImage"
+             class="qr-preview"
+             (click)="openQrModal()">
+
+          <img [src]="qrImage">
+
+        </div>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Status</label>
+
+        <select [(ngModel)]="item.status">
+
+          <option value="Good">
+            Good
+          </option>
+
+          <option value="Defective">
+            Defective
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Warehouse</label>
+
+        <input type="text"
+               [(ngModel)]="item.warehouse">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Rack</label>
+
+        <input type="text"
+               [(ngModel)]="item.rack">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Shelf</label>
+
+        <input type="text"
+               [(ngModel)]="item.shelf">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Bin</label>
+
+        <input type="text"
+               [(ngModel)]="item.bin">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Project</label>
+
+        <input type="text"
+               [(ngModel)]="item.project">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Assignment ID</label>
+
+        <input type="text"
+               [(ngModel)]="item.assignmentId">
+
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="save"
+              (click)="save()">
+
+        Update Item
+
+      </button>
+
+      <button class="back"
+              (click)="back()">
+
+        Cancel
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="qr-modal"
+     *ngIf="showQrModal">
+
+  <div class="qr-modal-content">
+
+    <button class="close-btn"
+            (click)="closeQrModal()">
+
+      ✕
+
+    </button>
+
+    <img [src]="qrImage"
+         class="zoomed-qr">
+
+    <h3>
+      {{ item.serialNumber }}
+    </h3>
+
+  </div>
+
+</div>

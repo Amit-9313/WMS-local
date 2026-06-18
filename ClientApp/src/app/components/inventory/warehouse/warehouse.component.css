@@ -1,0 +1,97 @@
+.page-header{
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:16px;
+padding:24px;
+}
+
+.page-header h2{
+margin:0;
+font-size:30px;
+font-weight:700;
+}
+
+.page-header p{
+margin-top:6px;
+color:#64748b;
+}
+
+/* STATS */
+
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+}
+
+.stat-card{
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:16px;
+padding:24px;
+}
+
+.stat-number{
+font-size:32px;
+font-weight:700;
+}
+
+.stat-label{
+color:#64748b;
+margin-top:6px;
+}
+
+.success{
+border-left:4px solid #16a34a;
+}
+
+.warning{
+border-left:4px solid #f59e0b;
+}
+
+.info{
+border-left:4px solid #2563eb;
+}
+
+.icon-btn{
+width:34px;
+height:34px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.view-btn{
+background:#dbeafe;
+}
+
+.edit-btn{
+background:#fef3c7;
+}
+
+.delete-btn{
+background:#fee2e2;
+}
+
+#warehouseMap{
+width:100%;
+height:250px;
+border:1px solid #d1d5db;
+border-radius:12px;
+margin-top:10px;
+}
+
+.map-help{
+display:block;
+margin-top:8px;
+color:#64748b;
+}
+
+.full-width{
+grid-column:span 2;
+}
+
+textarea.form-control{
+resize:vertical;
+min-height:80px;
+}

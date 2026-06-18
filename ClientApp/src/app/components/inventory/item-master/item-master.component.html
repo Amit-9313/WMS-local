@@ -1,0 +1,139 @@
+<div class="page-container">
+
+  <div class="toolbar">
+
+    <input class="search-box"
+           placeholder="Search Model, Serial Number, Warehouse..."
+           [(ngModel)]="searchText"
+           (ngModelChange)="filterItems()">
+
+    <input #fileInput
+           type="file"
+           accept=".xlsx,.xls"
+           hidden
+           (change)="onFileSelected($event)">
+
+    <button class="btn btn-success"
+            (click)="fileInput.click()">
+
+      Bulk Upload
+
+    </button>
+
+    <button class="btn btn-primary"
+            (click)="openCreateItem()">
+
+      + Create New Item
+
+    </button>
+
+  </div>
+
+  <div class="table-card">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Model</th>
+          <th>Model Number</th>
+          <th>Serial Number</th>
+          <th>Warehouse</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Actions</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let item of filteredItems">
+
+          <td>{{ item.modelName }}</td>
+
+          <td>{{ item.modelNumber }}</td>
+
+          <td>{{ item.serialNumber }}</td>
+
+          <td>{{ item.warehouse }}</td>
+
+          <td>
+
+            {{ item.rack }}
+            /
+            {{ item.shelf }}
+            /
+            {{ item.bin }}
+
+          </td>
+
+          <td>
+
+            <span
+              class="badge"
+              [ngClass]="item.status === 'Good'
+              ? 'badge-success'
+              : 'badge-danger'">
+
+              {{ item.status }}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <div class="action-buttons">
+
+              <button
+                class="btn btn-view"
+                (click)="viewItem(item)">
+
+                View
+
+              </button>
+
+              <button
+                class="btn btn-edit"
+                (click)="editItem(item)">
+
+                Edit
+
+              </button>
+
+              <button
+                class="btn btn-delete"
+                (click)="deleteItem(item.itemId)">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+        <tr *ngIf="filteredItems.length === 0">
+
+          <td colspan="7"
+              style="text-align:center;padding:30px;">
+
+            No Items Found
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

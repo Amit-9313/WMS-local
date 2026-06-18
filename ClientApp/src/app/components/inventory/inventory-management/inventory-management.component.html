@@ -1,0 +1,109 @@
+<div class="inventory-dashboard">
+
+  <!-- STAT CARDS -->
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <span class="card-label">Warehouses</span>
+      <h2>{{stats.warehouses}}</h2>
+    </div>
+
+    <div class="stat-card">
+      <span class="card-label">Models</span>
+      <h2>{{stats.models}}</h2>
+    </div>
+
+    <div class="stat-card">
+      <span class="card-label">Total Items</span>
+      <h2>{{stats.items}}</h2>
+    </div>
+
+    <div class="stat-card">
+      <span class="card-label">Assigned</span>
+      <h2>{{stats.assigned}}</h2>
+    </div>
+
+    <div class="stat-card danger">
+      <span class="card-label">Defective</span>
+      <h2>{{stats.defective}}</h2>
+    </div>
+
+    <div class="stat-card success">
+      <span class="card-label">Available</span>
+      <h2>{{stats.available}}</h2>
+    </div>
+
+  </div>
+
+  <!-- QUICK ACTIONS -->
+
+  <div class="action-section">
+
+    <h3>Quick Actions</h3>
+
+    <div class="action-grid">
+
+      <a routerLink="/warehouse" class="action-card">
+        <h4>Warehouse</h4>
+        <span>Create / View Warehouses</span>
+      </a>
+
+      <a routerLink="/model-master" class="action-card">
+        <h4>Model Master</h4>
+        <span>Create Models</span>
+      </a>
+
+      <a routerLink="/item-master" class="action-card">
+        <h4>Item Master</h4>
+        <span>Manage Inventory Items</span>
+      </a>
+
+      <a routerLink="/create-item" class="action-card">
+        <h4>Create Item</h4>
+        <span>Add New Serial Item</span>
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- RECENT ACTIVITIES -->
+
+  <div class="activity-section">
+
+    <div class="section-title">
+
+      <h3>Recent Activities</h3>
+
+      <span class="live-badge">
+        Live
+      </span>
+
+    </div>
+
+    <div class="activity-list">
+
+      <div
+        *ngFor="let activity of recentActivities"
+        class="activity-item">
+
+        <div class="activity-content">
+
+          <strong>{{activity.type}}</strong>
+
+          <p>{{activity.message}}</p>
+
+        </div>
+
+        <span class="time">
+          {{activity.time}}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

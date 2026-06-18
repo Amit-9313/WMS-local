@@ -1,0 +1,136 @@
+<div class="section-header">
+
+
+  <button class="btn btn-primary"
+          (click)="showProjectForm=true">
+
+    + New Project
+
+  </button>
+
+</div>
+
+<div class="tab-nav">
+
+  <button class="tab-btn"
+          [class.active]="activeTab==='projects'"
+          (click)="activeTab='projects'">
+
+    Projects
+
+  </button>
+
+  <button class="tab-btn"
+          [class.active]="activeTab==='bom'"
+          (click)="activeTab='bom'">
+
+    BOM Viewer
+
+  </button>
+
+  <button class="tab-btn"
+          [class.active]="activeTab==='stages'"
+          (click)="activeTab='stages'">
+
+    Stage Tracking
+
+  </button>
+
+</div>
+
+<!-- PROJECTS -->
+
+<div *ngIf="activeTab==='projects'"
+     class="tab-content">
+
+  <app-project-list [projects]="projects"
+                    (viewProject)="selectProject($event)">
+  </app-project-list>
+
+</div>
+
+<!-- BOM -->
+
+<div *ngIf="activeTab==='bom'"
+     class="tab-content">
+
+  <div class="action-bar">
+
+    <div>
+
+      <span *ngIf="!selectedProject"
+            class="text-muted">
+
+        Select a project
+
+      </span>
+
+      <strong *ngIf="selectedProject">
+        {{selectedProject.projectName}}
+      </strong>
+
+    </div>
+
+    <div class="actions">
+
+      <button *ngIf="selectedProject"
+              class="btn btn-primary"
+              (click)="fileInput.click()">
+
+        Import BOM
+
+      </button>
+
+      <input #fileInput
+             hidden
+             type="file"
+             accept=".csv,.xlsx,.xls"
+             (change)="importBOM($event)">
+
+    </div>
+
+  </div>
+
+  <app-bom-line-table *ngIf="bom"
+                      [lines]="bom.lines">
+  </app-bom-line-table>
+
+</div>
+
+<!-- STAGES -->
+
+<div *ngIf="activeTab==='stages'"
+     class="tab-content">
+
+  <app-stage-tracker [stages]="stages">
+  </app-stage-tracker>
+
+</div>
+
+<!-- MODAL -->
+
+<div *ngIf="showProjectForm"
+     class="modal-overlay"
+     (click)="showProjectForm=false">
+
+  <div class="modal"
+       (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+
+      <h3>Create Project</h3>
+
+      <button class="close-btn"
+              (click)="showProjectForm=false">
+
+        ✕
+
+      </button>
+
+    </div>
+
+    <app-project-form></app-project-form>
+
+  </div>
+
+</div>

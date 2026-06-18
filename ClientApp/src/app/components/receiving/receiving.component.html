@@ -1,0 +1,141 @@
+<div class="section-header">
+  <h2>Receiving Management</h2>
+
+  <button class="btn btn-primary"
+          (click)="createGRN()">
+
+    + New GRN
+
+  </button>
+</div>
+
+<!-- KPI Cards -->
+
+<div class="stats-grid">
+
+  <div class="stat-card">
+    <span>Total GRNs</span>
+    <strong>{{ totalGRNs }}</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Pending</span>
+    <strong>{{ pendingGRNs }}</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Inspection Pending</span>
+    <strong>{{ inspectionPending }}</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Closed</span>
+    <strong>{{ closedGRNs }}</strong>
+  </div>
+
+</div>
+
+<!-- Filters -->
+
+<div class="filters">
+
+  <input type="text"
+         class="form-control"
+         placeholder="Search GRN..." />
+
+  <select class="form-control">
+    <option>All Status</option>
+    <option>Pending</option>
+    <option>Received</option>
+    <option>Closed</option>
+  </select>
+
+  <select class="form-control">
+    <option>All Types</option>
+    <option>PO</option>
+    <option>Direct Receipt</option>
+    <option>Return</option>
+  </select>
+
+</div>
+
+<!-- GRN Table -->
+
+<div class="table-wrapper">
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>GRN Number</th>
+        <th>PO Number</th>
+        <th>Vendor</th>
+        <th>Receipt Type</th>
+        <th>Invoice Number</th>
+        <th>Invoice Date</th>
+        <th>Vehicle Number</th>
+        <th>Received By</th>
+        <th>Dock Zone</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let grn of grns">
+
+        <td>{{ grn.grnNumber }}</td>
+        <td>{{ grn.poNumber }}</td>
+        <td>{{ grn.vendor }}</td>
+        <td>{{ grn.receiptType }}</td>
+        <td>{{ grn.invoiceNumber }}</td>
+        <td>{{ grn.invoiceDate }}</td>
+        <td>{{ grn.vehicleNumber }}</td>
+        <td>{{ grn.receivedBy }}</td>
+        <td>{{ grn.dockZone }}</td>
+
+        <td>
+
+          <span class="badge badge-success"
+                *ngIf="grn.status === 'Received'">
+
+            Received
+
+          </span>
+
+          <span class="badge badge-warning"
+                *ngIf="grn.status === 'Pending'">
+
+            Pending
+
+          </span>
+
+          <span class="badge badge-primary"
+                *ngIf="grn.status === 'Closed'">
+
+            Closed
+
+          </span>
+
+        </td>
+
+        <td>
+
+          <button class="btn btn-sm btn-secondary"
+                  (click)="viewGRN(grn.grnNumber)">
+
+            View
+
+          </button>
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

@@ -1,0 +1,114 @@
+<div class="scanner-page">
+
+  <div class="page-header">
+
+    <h2>Barcode Scanner</h2>
+
+    <div class="header-buttons">
+
+      <button class="btn btn-success">
+        Generate Barcode
+      </button>
+
+      <button class="btn btn-primary">
+        Export
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="scan-card">
+
+    <label>Scan Barcode</label>
+
+    <div class="scan-box">
+
+      <input type="text"
+             [(ngModel)]="barcodeInput"
+             placeholder="Scan or Enter Barcode">
+
+      <button class="btn btn-primary"
+              (click)="scanBarcode()">
+
+        Scan
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="table-card">
+
+    <h3>Scanned Items</h3>
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Barcode</th>
+          <th>Item Code</th>
+          <th>Item Name</th>
+          <th>Qty</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let item of scannedItems; let i = index">
+
+          <td>{{ item.barcode }}</td>
+          <td>{{ item.itemCode }}</td>
+          <td>{{ item.itemName }}</td>
+          <td>{{ item.qty }}</td>
+
+          <td>
+
+            <span class="badge verified"
+                  *ngIf="item.status === 'Verified'">
+
+              Verified
+
+            </span>
+
+            <span class="badge pending"
+                  *ngIf="item.status === 'Pending'">
+
+              Pending
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <button class="btn btn-success btn-sm"
+                    (click)="verifyBarcode(item)">
+
+              Verify
+
+            </button>
+
+            <button class="btn btn-danger btn-sm"
+                    (click)="removeBarcode(i)">
+
+              Delete
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

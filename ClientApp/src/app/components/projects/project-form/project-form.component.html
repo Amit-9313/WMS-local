@@ -1,0 +1,44 @@
+<div class="grid">
+
+  <input class="form-control"
+         placeholder="Project Code"
+         [(ngModel)]="project.projectCode">
+
+  <input class="form-control"
+         placeholder="Project Name"
+         [(ngModel)]="project.projectName">
+
+  <input class="form-control"
+         placeholder="Customer"
+         [(ngModel)]="project.customerId">
+
+  <input class="form-control"
+         placeholder="Warehouse"
+         [(ngModel)]="project.warehouseId">
+
+  <input type="date"
+         class="form-control"
+         [(ngModel)]="project.mechanicalDate">
+
+  <input type="date"
+         class="form-control"
+         [(ngModel)]="project.electricalDate">
+
+  <input type="date"
+         class="form-control"
+         [(ngModel)]="project.cabinDate">
+
+  <input type="date"
+         class="form-control"
+         [(ngModel)]="project.testDate">
+
+  <input class="form-control"
+         placeholder="Assigned Team"
+         [(ngModel)]="project.assignedTeam">
+
+  <button class="btn"
+          (click)="save()">
+    Save Project
+  </button>
+
+</div>

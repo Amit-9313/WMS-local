@@ -1,0 +1,18 @@
+<div class="session">
+
+  <input [(ngModel)]="scannedCode"
+         placeholder="Scan barcode">
+
+  <button (click)="scan()">
+    Add
+  </button>
+
+  <ul>
+
+    <li *ngFor="let s of scannedItems">
+      {{s}}
+    </li>
+
+  </ul>
+
+</div>
